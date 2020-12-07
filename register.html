@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./register.css" />
+    <link rel="stylesheet" href="./backbone.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <title>Register</title>
+  </head>
+  <body>
+    <div id="container">
+      <div id="head">
+        <span id="title">
+          <h1 id="titleText">INTERACT</h1>
+        </span>
+      </div>
+      <div id="body">
+        <div id="errors"></div>
+        <div id="content">
+          <form id="registrationForm" method="POST" action="./register.php">
+            <div class="inputField email">
+              <h4 class="Title">Email</h4>
+              <input type="email" name="email" />
+            </div>
+            <div class="inputField username">
+              <h4 class="Title">Username</h4>
+              <input type="text" name="user" />
+            </div>
+            <div class="inputField">
+              <h4 class="Title">Password</h4>
+              <input type="password" name="pass" />
+            </div>
+            <div class="inputField confirm">
+              <h4 class="Title">Confirm Password</h4>
+              <input type="password" name="passRep" />
+            </div>
+          </form>
+          <div id="register">
+            <h4 id="altRoute">Already a Player?</h4>
+            <a href="./signIn.html"
+              ><div id="signInBtn">
+                <h4>Sign In</h4>
+              </div></a
+            >
+          </div>
+        </div>
+        <div id="options">
+          <div id="registerBtn"><h3>Register</h3></div>
+        </div>
+      </div>
+      <div id="foot">
+        <div id="backBtn" onclick="history.back();">
+          <i class="fa fa-arrow-circle-o-left"></i>
+        </div>
+        <div id="vault"><h2>Vault</h2></div>
+        <div id="settings"><i class="fa fa-cog"></i></div>
+      </div>
+    </div>
+  </body>
+  <script src="./register.js"></script>
+</html>

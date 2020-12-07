@@ -1,0 +1,140 @@
+h4,
+h3,
+h2 {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+#head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#head h1 {
+  font-size: 50px;
+}
+
+#body {
+  width: 100%;
+}
+
+#content {
+  width: 80%;
+  height: 80%;
+  margin: auto;
+  margin-top: 50px;
+  text-align: center;
+  position: relative;
+}
+
+.inputField {
+  width: 80%;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+.inputField .Title {
+  text-align: left;
+  margin-bottom: 5px;
+  font-size: 35px;
+  color: #000;
+}
+
+.inputField input {
+  width: 100%;
+  border-radius: 5px;
+  height: 5vh;
+  font-size: 25px;
+  text-align: center;
+}
+
+input:focus {
+  outline: none;
+}
+
+#register {
+  width: 80%;
+  height: 50px;
+  margin: auto;
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: 60% 40%;
+}
+
+#register #title {
+  color: #404040;
+  text-align: left;
+  font-style: italic;
+  font-size: 25px;
+  line-height: 50px;
+}
+
+#register #registerBtn {
+  border: 2px solid #000;
+  border-radius: 5px;
+  font-size: 25px;
+  line-height: 50px;
+}
+
+#failedSignIn {
+  margin-top: 50px;
+  color: #9e1010;
+}
+
+#options {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 10%;
+  margin-bottom: 20px;
+}
+
+#options a {
+  color: #000;
+  cursor: pointer;
+}
+
+#options div {
+  border: 2px solid #000;
+  border-radius: 5px;
+  width: 40%;
+  font-size: 25px;
+  padding: 10px 0;
+}
+
+#backBtn {
+  float: left;
+  cursor: pointer;
+  color: #000;
+}
+
+#signInBtn {
+  float: right;
+  cursor: pointer;
+  color: #000;
+}
+
+#foot {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  text-align: center;
+}
+
+#foot div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#foot #backBtn,
+#foot #settings {
+  font-size: 40px;
+}
+
+#foot #vault {
+  font-size: 25px;
+}

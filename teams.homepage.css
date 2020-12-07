@@ -1,0 +1,170 @@
+h2,
+h4 {
+  margin: 0;
+}
+
+#head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+}
+
+#head h1 {
+  font-size: 65px;
+  color: #fff;
+}
+
+#body {
+  overflow-y: scroll;
+  color: #000;
+}
+
+#teams {
+  width: 80%;
+  margin: auto;
+  margin-top: 50px;
+}
+
+#teams h2 {
+  font-size: 35px;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+#teamList {
+  border: 2px solid #000;
+  height: 175px;
+  border-radius: 5px;
+  overflow-x: scroll;
+  background-color: #fff;
+}
+
+#teamList::-webkit-scrollbar {
+  display: none;
+}
+
+.team {
+  height: 35px;
+  width: 150%;
+  display: grid;
+  grid-template-columns: 10% 40% 20% 20% 10%;
+  border-bottom: 2px solid #000;
+}
+
+.teamLogoWrapper,
+.teamName,
+.teamWon,
+.teamLost {
+  font-size: 20px;
+}
+
+.teamLogo {
+  width: 25px;
+  height: 25px;
+  border: 2px solid #000;
+  border-radius: 100%;
+}
+
+.team a {
+  color: #000;
+  text-decoration: none;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding-left: 10px;
+  transition: background-color 500ms, color 500ms;
+}
+
+.team a:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.teamLogoWrapper,
+.teamWon,
+.teamLost,
+.more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.more i {
+  cursor: pointer;
+}
+
+#createTeam {
+  border: 2px solid #000;
+  border-radius: 2px;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-top: 50px;
+  height: 50px;
+  box-shadow: 2px 2px #0d0d0d;
+  cursor: pointer;
+}
+
+#createTeam:hover {
+  width: 52%;
+  height: 52px;
+  margin-top: 49px;
+  box-shadow: 4px 4px #0d0d0d;
+}
+
+#createTeam a {
+  color: #000;
+  text-decoration: none;
+}
+
+#createTeam h2 {
+  font-size: 35px;
+  color: #fff;
+}
+
+#foot {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  background-color: #000;
+  color: #fff;
+}
+
+#foot div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#foot #back {
+  border-right: 2px solid #fff;
+  font-size: 35px;
+}
+
+#foot a {
+  color: #fff;
+}
+
+#foot #vault {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+#foot #vault:hover {
+  font-size: 26px;
+}
+
+#foot #settingsBtn {
+  border-left: 2px solid #fff;
+  font-size: 35px;
+}
+
+#foot i {
+  cursor: pointer;
+}
+
+#foot i:hover {
+  font-size: 38px;
+}

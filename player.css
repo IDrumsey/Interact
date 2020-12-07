@@ -1,0 +1,184 @@
+h2 {
+  margin: 0;
+}
+
+#head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+#head h1 {
+  width: 80%;
+  font-size: 50px;
+  overflow-x: scroll;
+}
+
+#head h1::-webkit-scrollbar {
+  display: none;
+}
+
+#body {
+  overflow-y: scroll;
+  padding: 50px 0;
+  color: #000;
+}
+
+#body::-webkit-scrollbar {
+  display: none;
+}
+
+#profileLogoWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 150px;
+  margin: auto;
+}
+
+#profileLogo {
+  border: 2px solid #000;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  min-width: 100px;
+  min-height: 100px;
+}
+
+#games {
+  width: 80%;
+  margin: auto;
+  margin-top: 50px;
+}
+
+.title {
+  font-size: 35px;
+}
+
+#gameList {
+  width: 100%;
+  height: auto;
+  border: 2px solid #000;
+  border-radius: 5px;
+  overflow-y: scroll;
+}
+
+#gameList::-webkit-scrollbar {
+  display: none;
+}
+
+.game {
+  width: 80%;
+  height: 75px;
+  margin: 10px auto;
+  border: 2px solid #000;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#teams {
+  width: 80%;
+  margin: auto;
+  margin-top: 50px;
+}
+
+#teamList {
+  width: 100%;
+  height: auto;
+  min-height: 40px;
+  max-height: 200px;
+  border: 2px solid #000;
+  border-radius: 5px;
+  overflow-y: scroll;
+  overflow-x: scroll;
+}
+
+.team:last-child {
+  border-bottom: none;
+}
+
+#teamList::-webkit-scrollbar {
+  display: none;
+}
+
+.team {
+  width: 150%;
+  display: grid;
+  grid-template-columns: 10% 80% 10%;
+  height: 40px;
+  border-bottom: 2px solid #000;
+}
+
+.team a {
+  color: #000;
+  text-decoration: none;
+}
+
+.teamLogoWrapper,
+.more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.teamName {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding-left: 20px;
+  font-size: 20px;
+  overflow-x: hidden;
+}
+
+.teamLogo {
+  width: 25px;
+  height: 25px;
+  border: 2px solid #000;
+  border-radius: 100%;
+}
+
+#foot {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+}
+
+#foot div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#foot #back {
+  border-right: 2px solid #000;
+  font-size: 35px;
+}
+
+#foot a {
+  color: #000;
+}
+
+#foot #vault {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+#foot #vault:hover {
+  font-size: 26px;
+}
+
+#foot #settings {
+  border-left: 2px solid #000;
+  font-size: 35px;
+}
+
+#foot i {
+  cursor: pointer;
+}
+
+#foot i:hover {
+  font-size: 38px;
+}

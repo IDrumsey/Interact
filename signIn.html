@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./signIn.css" />
+    <link rel="stylesheet" href="./backbone.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <title>Sign In</title>
+  </head>
+  <body>
+    <div id="container">
+      <div id="head">
+        <h1>SIGN IN</h1>
+      </div>
+      <div id="body">
+        <div id="content">
+          <form id="signInForm" method="POST" action="/Interact/signIn.php">
+            <div class="inputField username">
+              <h4 class="Title">Username</h4>
+              <input type="text" id="user" name="user" />
+            </div>
+            <div class="inputField">
+              <h4 class="Title">Password</h4>
+              <input type="password" id="pass" name="pass" />
+            </div>
+          </form>
+          <div id="register">
+            <h4 id="title">Not a Player?</h4>
+            <a href="./register.html"
+              ><div id="registerBtn">
+                <h4>Register</h4>
+              </div></a
+            >
+          </div>
+          <div id="options">
+            <div id="backBtn" onclick="history.back();"><h3>Back</h3></div>
+            <div id="signInBtn"><h3>Sign In</h3></div>
+          </div>
+        </div>
+      </div>
+      <div id="foot">
+        <div id="backBtn" onclick="history.back();">
+          <i class="fa fa-arrow-circle-o-left"></i>
+        </div>
+        <div id="vault"><h2>Vault</h2></div>
+        <div id="settings"><i class="fa fa-cog"></i></div>
+      </div>
+    </div>
+    <script src="./logIn.js"></script>
+  </body>
+</html>

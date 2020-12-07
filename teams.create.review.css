@@ -1,0 +1,249 @@
+h2 {
+  margin: 0;
+}
+
+#head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#head h1 {
+  font-size: 55px;
+}
+
+#body {
+  position: relative;
+  overflow-y: scroll;
+  padding-bottom: 40px;
+  color: #000;
+}
+
+#body::-webkit-scrollbar {
+  display: none;
+}
+
+#teamInfo {
+  width: 80%;
+  margin: auto;
+  text-align: center;
+  margin-top: 50px;
+}
+
+#teamInfo h1 {
+  font-size: 50px;
+}
+
+#teamMembers {
+  width: 80%;
+  margin: auto;
+  margin-top: 25px;
+}
+
+#membersTitle {
+  font-size: 35px;
+}
+
+#memberList {
+  border: 2px solid #000;
+  border-radius: 5px;
+  overflow-y: scroll;
+  height: 200px;
+  box-shadow: 2px 2px 3px #000;
+  overflow-x: scroll;
+}
+
+#memberList::-webkit-scrollbar {
+  display: none;
+}
+
+.teamMember {
+  width: 150%;
+  height: 40px;
+  display: grid;
+  grid-template-columns: 20% 50% 30%;
+  border-bottom: 2px solid #000;
+}
+
+.playerLogoWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.playerLogo {
+  border: 2px solid #000;
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+}
+
+.playerName {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.teamMember a {
+  color: #000;
+  text-decoration: none;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.memberRank {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+#history {
+  width: 80%;
+  height: auto;
+  margin: 50px auto;
+}
+
+#historyList {
+  border: 2px solid #000;
+  border-radius: 5px;
+  overflow-y: scroll;
+  height: auto;
+  max-height: 200px;
+}
+
+#historyList::-webkit-scrollbar {
+  display: none;
+}
+
+.historyItem {
+  width: 150%;
+  height: 40px;
+  display: grid;
+  grid-template-columns: 15% 15% 30% 10% 30%;
+  border-bottom: 2px solid #000;
+}
+
+.historyItem:last-child {
+  border-bottom: none;
+}
+
+.matchDate,
+.matchTime,
+.separator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.matchDate,
+.matchTime {
+  overflow-x: hidden;
+}
+
+.team1 {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.team1 h2 {
+  text-align: right;
+  width: 100%;
+  margin-right: 10px;
+}
+
+.team2 {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.team2 h2 {
+  text-align: left;
+  width: 100%;
+  margin-left: 10px;
+}
+
+#options {
+  width: 80%;
+  height: 50px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 40% 20% 40%;
+  font-size: 20px;
+  border-radius: 2px;
+}
+
+#editTeam {
+  grid-column: 1/2;
+}
+
+#invPlayer {
+  grid-column: 3/4;
+}
+
+#invPlayer,
+#editTeamBtn,
+#finishBtn {
+  color: #000;
+  text-decoration: none;
+  border: 2px solid #000;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#finishBtn {
+  width: 80%;
+  height: 50px;
+  margin: auto;
+  margin-top: 50px;
+}
+
+#foot {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+}
+
+#foot div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#foot #back {
+  border-right: 2px solid #000;
+  font-size: 35px;
+}
+
+#foot a {
+  color: #000;
+}
+
+#foot #vault {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+#foot #vault:hover {
+  font-size: 26px;
+}
+
+#foot #settings {
+  border-left: 2px solid #000;
+  font-size: 35px;
+}
+
+#foot i {
+  cursor: pointer;
+}
+
+#foot i:hover {
+  font-size: 38px;
+}

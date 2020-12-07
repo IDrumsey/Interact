@@ -1,0 +1,207 @@
+h2 {
+  margin: 0;
+}
+
+#head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#head h1 {
+  font-size: 65px;
+}
+
+#body {
+  color: #000;
+  position: relative;
+}
+
+#pageDesc {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 15px;
+}
+
+#playerSearch {
+  width: 80%;
+  margin: auto;
+  margin-top: 100px;
+}
+
+#searchTitle {
+  font-size: 35px;
+}
+
+#playerSearchWrapper {
+  border: 2px solid #000;
+  border-radius: 5px;
+}
+
+#searchBar {
+  display: grid;
+  grid-template-columns: 90% 10%;
+  height: 30px;
+  border-bottom: 2px solid #000;
+}
+
+#searchBar input {
+  border: none;
+  width: 100%;
+  height: 90%;
+  text-align: center;
+  font-size: 20px;
+}
+
+#searchBar input:focus {
+  outline: none;
+}
+
+#searchBtnActual {
+  cursor: pointer;
+}
+
+#searchBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.player {
+  width: 100%;
+  height: 40px;
+  display: grid;
+  grid-template-columns: 20% 65% 15%;
+}
+
+.playerLogoWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.playerLogo {
+  border: 2px solid #000;
+  border-radius: 100%;
+  height: 30px;
+  width: auto;
+  max-width: 30px;
+}
+
+.playerName {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.playerName h2 {
+  font-size: 25px;
+}
+
+.inv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+}
+
+.inv a {
+  color: #000;
+  text-decoration: none;
+}
+
+#teamMembers {
+  width: 80%;
+  margin: auto;
+  margin-top: 50px;
+}
+
+#membersTitle {
+  font-size: 35px;
+}
+
+#memberList {
+  border: 2px solid #000;
+  border-radius: 5px;
+  overflow-x: scroll;
+}
+
+#memberList::-webkit-scrollbar {
+  display: none;
+}
+
+.teamMember {
+  width: 150%;
+  height: 40px;
+  display: grid;
+  grid-template-columns: 20% 50% 30%;
+}
+
+.memberRank {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#finishBtn {
+  color: #000;
+  text-decoration: none;
+}
+
+#finish {
+  width: 80%;
+  height: 50px;
+  left: 10%;
+  position: absolute;
+  bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  border: 2px solid #000;
+  border-radius: 2px;
+}
+
+#foot {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+}
+
+#foot div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#foot #back {
+  border-right: 2px solid #000;
+  font-size: 35px;
+}
+
+#foot a {
+  color: #000;
+}
+
+#foot #vault {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+#foot #vault:hover {
+  font-size: 26px;
+}
+
+#foot #settings {
+  border-left: 2px solid #000;
+  font-size: 35px;
+}
+
+#foot i {
+  cursor: pointer;
+}
+
+#foot i:hover {
+  font-size: 38px;
+}

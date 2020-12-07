@@ -1,0 +1,294 @@
+h2 {
+  margin: 0;
+  font-size: 35px;
+}
+
+#head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#head h1 {
+  font-size: 50px;
+}
+
+#body {
+  overflow: scroll;
+  padding-bottom: 50px;
+}
+
+#body::-webkit-scrollbar {
+  display: none;
+}
+
+#newTournament {
+  width: 80%;
+  margin: auto;
+  margin-top: 50px;
+}
+
+#tournamentTitle {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 30% 70%;
+  margin: auto;
+}
+
+#tournamentName {
+  font-size: 25px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+#prize {
+  width: 100%;
+  margin-top: 50px;
+}
+
+#prizeOptions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+#prizeOptions div {
+  text-align: center;
+}
+
+#setTotalAmount {
+  width: 100%;
+  margin: auto;
+  margin-top: 40px;
+}
+
+#setTotalAmount h2 {
+  text-align: center;
+}
+
+#setTotalAmount input {
+  height: 50px;
+  border-radius: 5px;
+  font-size: 25px;
+  text-align: center;
+  width: 50%;
+  margin-left: 25%;
+}
+
+#setTotalAmount input:focus {
+  outline-color: #00ff00;
+}
+
+#startDate {
+  width: 100%;
+  margin: auto;
+  margin-top: 50px;
+}
+
+#startDate h2 {
+  text-align: center;
+}
+
+#startDate input {
+  width: 50%;
+  margin-left: 25%;
+}
+
+#endDate {
+  margin-top: 25px;
+  text-align: center;
+}
+
+#setEndDate {
+  width: 100%;
+  margin: auto;
+  margin-top: 25px;
+}
+
+#setEndDate h2 {
+  text-align: center;
+}
+
+#setEndDate input {
+  width: 50%;
+}
+
+#bracket {
+  width: 100%;
+  margin-top: 50px;
+}
+
+#bracket h2 {
+  width: 100%;
+  text-align: center;
+}
+
+#bracketOptions {
+  width: 100%;
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.bracketOption {
+  text-align: center;
+  margin: 10px 0px;
+}
+
+#prizeDistribution {
+  width: 100%;
+  margin-top: 50px;
+}
+
+#prizeDistribution h2 {
+  width: 100%;
+  text-align: center;
+}
+
+#prizeDistributionOptions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 25px;
+}
+
+.prizeDistributionOption {
+  text-align: center;
+  margin: 10px 0px;
+}
+
+#game {
+  width: 100%;
+  margin-top: 50px;
+}
+
+#game h2 {
+  width: 100%;
+  text-align: center;
+}
+
+#gameOptions {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.gameOption {
+  text-align: center;
+  margin: 10px 0px;
+}
+
+.gameOption:first-child {
+  text-align: left;
+}
+
+.gameOption:nth-child(3) {
+  text-align: right;
+}
+
+.gameOption:nth-child(4) {
+  text-align: left;
+}
+
+#grouping {
+  width: 100%;
+  margin-top: 50px;
+}
+
+#grouping h2 {
+  width: 100%;
+  text-align: center;
+}
+
+#groupingOptions {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.groupingOption {
+  text-align: center;
+  margin: 10px 0px;
+}
+
+.groupingOption:first-child {
+  text-align: left;
+}
+
+.groupingOption:nth-child(3) {
+  text-align: right;
+}
+
+.groupingOption:nth-child(4) {
+  text-align: left;
+}
+
+#create {
+  width: 80%;
+  height: 50px;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-top: 50px;
+  background-color: #000;
+}
+
+#create:hover {
+  cursor: pointer;
+}
+
+#create h1 {
+  font-size: 40px;
+}
+
+#foot {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+}
+
+#foot a,
+#settingsBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+#foot #back {
+  border-right: 2px solid #fff;
+  font-size: 35px;
+}
+
+#foot a {
+  color: #fff;
+}
+
+#foot #vault {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+#foot #vault:hover {
+  font-size: 26px;
+}
+
+#vault h1 {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+}
+
+#foot #settingsBtn {
+  border-left: 2px solid #fff;
+  font-size: 35px;
+}
+
+#foot i {
+  cursor: pointer;
+}
+
+#foot i:hover {
+  font-size: 38px;
+}

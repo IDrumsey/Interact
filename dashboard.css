@@ -1,0 +1,281 @@
+body {
+  font-family: "Bebas Neue", "Times New Roman";
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  padding: 0;
+}
+
+#container {
+  position: absolute;
+  z-index: 1;
+}
+
+#head {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  background-color: rgb(0, 15, 27);
+  color: #fff;
+}
+
+#head .title {
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+
+#titleText {
+  padding-left: 40px;
+  font-size: 50px;
+  text-shadow: 0 0 10px rgb(132, 196, 255);
+}
+
+#profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#profile a {
+  cursor: pointer;
+  color: #000;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#profilePic {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  border: 3px solid #fff;
+}
+
+#body {
+  overflow-y: scroll;
+  color: #000;
+}
+
+#body .title {
+  font-size: 25px;
+  color: rgb(0, 0, 0);
+  text-shadow: 0 0 10px rgb(255, 255, 255);
+}
+
+#upcomingGames {
+  width: 80%;
+  margin: auto;
+  margin-top: 50px;
+  color: #000;
+}
+
+.list {
+  border: 2px solid #000;
+  height: 100px;
+  box-shadow: 5px 1px 4px 1px #000;
+  overflow-y: scroll;
+  background-color: #fff;
+}
+
+.list::-webkit-scrollbar {
+  display: none;
+}
+
+.upcomingGame {
+  display: grid;
+  grid-template-columns: 20% 70% 10%;
+  text-align: center;
+  border-bottom: 2px solid #000;
+}
+
+.time {
+  border-right: 2px solid #000;
+  text-align: center;
+}
+
+.teams {
+  text-align: left;
+  display: grid;
+  grid-template-columns: 45% 10% 45%;
+  border-right: 2px solid #000;
+}
+
+.teamA {
+  text-align: right;
+}
+
+.separator {
+  text-align: center;
+}
+
+.more {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#invitations {
+  width: 80%;
+  margin: auto;
+  margin-top: 50px;
+  color: #000;
+}
+
+.invitation {
+  display: grid;
+  grid-template-columns: 45% 30% 25%;
+  border-bottom: 2px solid #000;
+}
+
+.invitation div {
+  overflow-x: hidden;
+}
+
+.invitor {
+  border-right: 2px solid #000;
+  padding-left: 10px;
+}
+
+.type {
+  border-right: 2px solid #000;
+  text-align: center;
+}
+
+.options {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+.options div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.accept {
+  border-right: 2px solid #000;
+}
+
+#options {
+  width: 80%;
+  margin: auto;
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: 40% 20% 40%;
+}
+
+#options a {
+  color: #000;
+  text-decoration: none;
+  background-color: #fff;
+}
+
+#teams {
+  grid-column: 1/2;
+  border: 2px solid #000;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 5px 1px 4px 1px #000;
+}
+
+#play {
+  grid-column: 3/4;
+  border: 2px solid #000;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 5px 1px 4px 1px #000;
+}
+
+#history {
+  width: 80%;
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  color: #000;
+}
+
+#history div {
+  text-align: center;
+}
+
+#history .title {
+  text-align: left;
+}
+
+#history .game {
+  width: 175%;
+  display: grid;
+  grid-template-columns: 40% 25% 35%;
+  border-bottom: 2px solid #000;
+}
+
+#history .game::-webkit-scrollbar {
+  display: none;
+}
+
+.date {
+  border-right: 2px solid #000;
+}
+
+#history .time {
+  border-right: none;
+}
+
+/*
+Use to indicate a win or loss
+#history .teams {
+  background-color: #1f9755;
+}*/
+
+#foot {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  background-color: rgb(0, 9, 17);
+  color: #fff;
+}
+
+#foot div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#foot #signOut {
+  border-right: 2px solid #fff;
+  font-size: 35px;
+}
+
+#foot a {
+  color: #fff;
+}
+
+#foot #vault {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+#foot #vault:hover {
+  font-size: 26px;
+}
+
+#foot #settings {
+  border-left: 2px solid #fff;
+  font-size: 35px;
+}
+
+#settingsBtn:hover {
+  cursor: pointer;
+}
+
+.sectionTitle {
+  color: #fff;
+}

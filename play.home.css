@@ -1,0 +1,205 @@
+h2 {
+  margin: 0;
+}
+
+#container {
+  color: #fff;
+}
+
+#head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+}
+
+#head h1 {
+  font-size: 65px;
+}
+
+#body {
+  overflow-y: scroll;
+}
+
+#body::-webkit-scrollbar {
+  display: none;
+}
+
+#upcomingTournaments {
+  width: 80%;
+  margin: auto;
+  margin-top: 50px;
+}
+
+#upcomingHead {
+  margin-bottom: 15px;
+}
+
+#gameOptions {
+  width: 100%;
+  height: 100%;
+  border: 2px solid #fff;
+  background-color: #000;
+  border-radius: 5px;
+}
+
+#gameOptions::-webkit-scrollbar {
+  display: none;
+}
+
+#gameOptions option {
+  height: 25px;
+  font-size: 20px;
+  padding: 5px;
+  border-bottom: 2px solid #fff;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+}
+
+#searchBtn {
+  border: 2px solid #000;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+#searchBtn h2 {
+  text-align: center;
+}
+
+#searchBtn:hover {
+  cursor: pointer;
+}
+
+#tournamentList {
+  border: 2px solid #000;
+  border-radius: 5px;
+  height: auto;
+  min-height: 40px;
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+#tournamentList::-webkit-scrollbar {
+  display: none;
+}
+
+.tournament {
+  width: 200%;
+  overflow-x: scroll;
+  display: grid;
+  grid-template-columns: 25% 45% 20% 10%;
+  border-bottom: 2px solid #000;
+  height: 40px;
+}
+
+.tournament::-webkit-scrollbar {
+  display: none;
+}
+
+.tournament:last-child {
+  border-bottom: none;
+}
+
+.gameTitle,
+.tournamentName,
+.startDate,
+.numTeams {
+  overflow: hidden;
+}
+
+.tournamentName {
+  color: #000;
+  text-decoration: none;
+}
+
+.tournamentName,
+.gameTitle {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding-left: 20px;
+}
+
+.startDate,
+.numTeams {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#options {
+  width: 80%;
+  height: 50px;
+  display: grid;
+  grid-template-columns: 40% 20% 40%;
+  margin: auto;
+  margin-top: 50px;
+}
+
+#options a {
+  color: #fff;
+  text-decoration: none;
+}
+
+#options div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #000;
+  border-radius: 5px;
+  height: 100%;
+}
+
+#create {
+  grid-column: 1/2;
+}
+
+#join {
+  grid-column: 3/4;
+}
+
+#foot {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  background-color: #000;
+}
+
+#foot div,
+#back {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#foot #back {
+  border-right: 2px solid #fff;
+  font-size: 35px;
+}
+
+#foot a {
+  color: #fff;
+  text-decoration: none;
+}
+
+#foot #vault {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+#foot #vault:hover {
+  font-size: 26px;
+}
+
+#foot #settings {
+  border-left: 2px solid #fff;
+  font-size: 35px;
+}
+
+#foot i {
+  cursor: pointer;
+}
+
+#foot i:hover {
+  font-size: 38px;
+}

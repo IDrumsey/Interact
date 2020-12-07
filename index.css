@@ -1,0 +1,156 @@
+html,
+body,
+.container {
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  font-family: "Bebas Neue", "Times New Roman";
+  position: absolute;
+  background-image: linear-gradient(to bottom, #000, #fff);
+}
+
+h4,
+h2,
+h3,
+h1,
+p {
+  margin: 0;
+}
+
+.head {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 2px solid #000;
+  background-color: #fff;
+}
+
+#titleText {
+  font-size: 6vh;
+}
+
+#whatWeDo {
+  border: 2px solid #000;
+  border-radius: 5px;
+  width: 75vw;
+  margin: auto auto;
+  padding: 5px;
+  margin-top: 50px;
+  background-color: #fff;
+}
+
+#whatWeDo #Header #HeaderText {
+  font-size: 3vh;
+}
+
+#whatWeDo #Body {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+#whatWeDo #Body #BodyText {
+  font-size: 2vh;
+  text-align: center;
+}
+
+.options {
+  width: 75vw;
+  height: 8vh;
+  margin: auto auto;
+  margin-top: 10vh;
+}
+
+.options a {
+  color: #000;
+}
+
+.options a div {
+  background-color: #fff;
+}
+
+.options #signIn {
+  border: 2px solid #000;
+  border-radius: 5px;
+  float: left;
+  padding: 0 15px;
+  width: 35%;
+  height: 100%;
+  font-size: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.options #register {
+  border: 2px solid #000;
+  border-radius: 5px;
+  float: right;
+  padding: 0 15px;
+  width: 35%;
+  height: 100%;
+  font-size: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#Upcoming {
+  width: 75%;
+  border: 2px solid #000;
+  margin: auto auto;
+  margin-top: 50px;
+  background-color: #fff;
+}
+
+#Upcoming #Head {
+  width: 100%;
+  margin: auto auto;
+  height: 8%;
+  text-align: center;
+  padding: 10px 0;
+}
+
+#Upcoming #Head #HeadText {
+  font-size: 30px;
+  letter-spacing: 1px;
+}
+
+.upcomingTournament {
+  width: 100%;
+  font-size: 20px;
+  border-top: 2px solid #000;
+}
+
+.upcomingTournament .Head {
+  width: 100%;
+  text-align: center;
+  display: grid;
+  grid-template-columns: 45% 10% 10% 35%;
+  grid-template-rows: 1fr;
+  padding-top: 10px;
+}
+
+.upcomingTournament .Teams {
+  width: 100%;
+  text-align: center;
+  display: grid;
+  grid-template-columns: 40% 20% 40%;
+  grid-template-rows: 1fr;
+  padding-top: 10px;
+}
+
+.upcomingTournament .Details {
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.upcomingTournament .detailsButton {
+  width: 50%;
+  border: 2px solid #000;
+  text-align: center;
+  margin: auto auto;
+  border-radius: 5px;
+}
