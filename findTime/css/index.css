@@ -1,0 +1,181 @@
+h1, h2 {
+    margin: 0;
+    text-shadow: 0 0 10px rgb(255, 73, 185);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    user-select: none;
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+}
+
+#container {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+#wrapMain {
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    position: relative;
+    top: 10%;
+    box-shadow: 0 0 50px rgb(139, 0, 0);
+}
+
+#mainHead {
+    width: 100%;
+    height: 10%;
+    z-index: 4;
+    position: relative;
+    background-color: #000;
+}
+
+#mainHead h1 {
+    color: #fff;
+    text-align: center;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#mainBody {
+    width: 100%;
+    height: 75%;
+    background-color: #fff;
+    overflow: scroll;
+}
+
+#mainBody::-webkit-scrollbar {
+    display: none;
+}
+
+#mainFoot {
+    width: 100%;
+    height: 15%;
+    background-color: #000;
+    position: relative;
+    z-index: 4;
+}
+
+#continue h1 {
+   text-align: center;
+   position: relative;
+   top: 50%;
+   transform: translateY(-50%);
+   font-size: 30px;
+   transition: font-size 100ms, text-shadow 100ms;
+}
+
+#continue {
+    background-color: #fff;
+    width: 170px;
+    height: 65%;
+    border-radius: 5px;
+    float: right;
+    margin-right: 20px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 2px 5px rgb(255, 73, 128);
+    transition: top 100ms, width 100ms, right 100ms, box-shadow 100ms, margin-right 100ms;
+}
+
+#continue:hover {
+    top: 54%;
+    height: 63%;
+    cursor: pointer;
+    box-shadow: 0 1px 5px rgb(211, 44, 94);
+    width: 165px;
+    margin-right: 25px;
+}
+
+#continue:hover h1 {
+    font-size: 29.5px;
+    top: 53%;
+}
+
+.day {
+    width: 90%;
+    height: 100px;
+    margin: auto;
+    position: relative;
+    top: 20px;
+}
+
+.dayTitle {
+    text-align: center;
+    z-index: 1;
+}
+
+.times {
+    position: relative;
+    top: 5px;
+    border: 2px solid #000;
+    border-radius: 10px;
+    width: 100%;
+    height: 5px;
+}
+
+.labels {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    text-align: center;
+    margin-top: 20px;
+}
+
+.labels h4:first-child {
+    text-align: left;
+}
+
+.labels h4:last-child {
+    text-align: right;
+}
+
+h4 {
+    margin: 0;
+}
+
+.point {
+    border: 2px solid #000;
+    border-radius: 100%;
+    height: 15px;
+    width: 15px;
+    position: fixed;
+    background-color: #fff;
+    z-index: 2;
+    transition-timing-function: ease-in-out;
+}
+
+.point:hover {
+    cursor: ew-resize;
+}
+
+.connector {
+    background-color: rgb(160, 24, 24);
+    width: 100px;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+}
+
+.timeDisplay {
+    border: 2px solid #000;
+    border-radius: 2px;
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    width: 40px;
+    position: absolute;
+    display: none;
+    transition: left 500ms;
+    z-index: 2;
+}
