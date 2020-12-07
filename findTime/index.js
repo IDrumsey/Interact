@@ -2,12 +2,14 @@ let defaultConnectorWidth = 50;
 let pointRadius = 20;
 
 function Day(date, ref){
+    //console.log("Creating Day - Date = ", date);
     let obj = {};
     obj.ref = ref;
     obj.dateRaw = date;
+    //console.log("just set date = ", obj.dateRaw);
     obj.dateHR = formatDate(date);
     obj.setDay = function(){
-        console.log("raw : ", this.dateRaw);
+        //console.log("raw : ", this.dateRaw);
         obj.day = dayNames[this.dateRaw.getDay()];
     }
     obj.setTimelineRef = function(timelineRef){
@@ -298,16 +300,21 @@ let days = [];
 
 for(let currDate = startDate; currDate < endDate; currDate.setDate(currDate.getDate() + 1)){
     //Create day markup
+    let tmpRawDate = new Date(currDate);
     let dayWrapper = document.createElement('div');
     dayWrapper.classList.add('day');
     let dayText = document.createElement('h2');
     dayText.classList.add('dayTitle');
     dayWrapper.appendChild(dayText);
     //create new day and set day
-    let tmpDate = Day(currDate, dayWrapper);
+    //console.log("TMP : ", currDate);
+    let tmpDate = Day(tmpRawDate, dayWrapper);
     tmpDate.setDay();
     dayText.innerText = tmpDate.day;
+    //console.log("tmpdate : ", tmpDate);
     days.push(tmpDate);
+    //console.log("tmpDate2 : ", tmpDate);
+    //console.log("days : ", days);
     //Add labels
     let labelWrapper = document.createElement('div');
     labelWrapper.classList.add('labels');
@@ -425,7 +432,7 @@ let continueBtn = document.getElementById('continue');
 continueBtn.addEventListener('click', ()=>{
     let timeIntervals = [];
     for(let c = 0; c < days.length; c++){
-        console.log(days[c]);
+        //console.log("Day : ", days[c]);
         if(days[c].timeline.points.length > 0){
             let dayTimes = days[c].timeline.wrapUp();
             let fin = {
@@ -436,8 +443,10 @@ continueBtn.addEventListener('click', ()=>{
             timeIntervals.push(fin);
         }
     }
-    console.log(timeIntervals);
+    process();
 })
+
+//console.log("Days = ", days);
 
 //Functions
 
@@ -502,4 +511,17 @@ function getElementPosition(element){
         left: position.left,
         top: position.top
     }
+}
+
+function process(){
+    let call = new XMLHttpRequest();
+    //response
+    call.addEventListener('load', ()=>{
+        console.log("response aquired");
+        console.log("Response : ", this.responseText);
+    });
+
+    call.open("POST", "addUserAvailability.php");
+    call.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    call.send("worked=true");
 }
