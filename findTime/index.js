@@ -436,14 +436,14 @@ continueBtn.addEventListener('click', ()=>{
         if(days[c].timeline.points.length > 0){
             let dayTimes = days[c].timeline.wrapUp();
             let fin = {
-                date: days[c].dateRaw,
+                date: days[c].dateHR,
                 day: days[c].day,
                 times: dayTimes
             }
             timeIntervals.push(fin);
         }
     }
-    process();
+    process(timeIntervals);
 })
 
 //console.log("Days = ", days);
@@ -451,7 +451,8 @@ continueBtn.addEventListener('click', ()=>{
 //Functions
 
 function formatDate(date){
-    return date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
+    let tmpMonth = date.getMonth() + 1;
+    return date.getFullYear() + "/" + tmpMonth + "/" + date.getDate();
 }
 
 function getTime(timeRatio){
@@ -513,15 +514,34 @@ function getElementPosition(element){
     }
 }
 
-function process(){
+let popupBox = document.getElementById("popup");
+
+function process(timeInts){
+    //prep times
+    let intervals = JSON.stringify(timeInts);
     let call = new XMLHttpRequest();
     //response
-    call.addEventListener('load', ()=>{
-        console.log("response aquired");
+    call.onload = function(){
         console.log("Response : ", this.responseText);
-    });
+        if(this.responseText == "Success"){
+            //window.location.href = "../index.php";
+        }
+        else{
+            let msgBox = document.getElementById("msg");
+            let msgText = msgBox.childNodes[0];
+            msgText.innerText = "Error Occured";
+            popupBox.style.display = "block";
+        }
+    }
 
-    call.open("POST", "addUserAvailability.php");
-    call.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    call.send("worked=true");
+    let pms = window.location.search;
+    call.open("POST", "addUserAvailability.php" + pms);
+    call.setRequestHeader("Content-type", "application/json");
+    call.send(intervals);
 }
+
+let retryBtn = document.getElementById('acknowledge');
+
+retryBtn.addEventListener('click', ()=>{
+    popupBox.style.display = "none";
+})
