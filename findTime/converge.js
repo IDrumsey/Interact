@@ -3,43 +3,132 @@ function Person(name, availableTimes){
     let obj = {};
     obj.name = name;
     obj.availableTimes = availableTimes;
+    obj.unavailableTimes = findUnavailable(availableTimes);
+    return obj;
 }
 
 //Algorithm for finding the best time for multiple peoples' schedules
 
-//setIntervals
-let intervals = genIntervals(3);
+//Calc the unavailable time intervals from the available time intervals
 
-//Convert intervals to minutes
-for(let i = 0; i < intervals.length; i++){
-    intervals[i].start = timeToMin(intervals[i].start.hr, intervals[i].start.min, intervals[i].start.period);
-    intervals[i].end = timeToMin(intervals[i].end.hr, intervals[i].end.min, intervals[i].end.period);
-    if(intervals[i].start > intervals[i].end){
-        let temp = intervals[i].start;
-        intervals[i].start = intervals[i].end;
-        intervals[i].end = temp;
-    }
+//for all unavailable times, mark index as false
+
+//left with true values where time available for all
+
+//Set people
+let peopleList = [];
+const numPeople = 2;
+//create people
+for(let i = 0; i < numPeople; i++){
+    let tmpName = "name " + i;
+    let tmpPerson = createPerson(tmpName);
+    peopleList.push(tmpPerson);
 }
 
+console.log("people: ", peopleList);
 
-console.log("Intervals : ", intervals);
+//initialize main timeline array
+let timeline = Array(60 * 24);
+timeline.fill(true);
 
-let base = genBase(intervals);
+//For each person and all their unavailable intervals mark those slots as false
+//runAlg(peopleList);
 
-//sort by starting time
-sortAsc(base);
 
-console.log(base);
+runAlg(peopleList);
 
-console.log("Converging");
 
-let fin = converge(base, 0);
-console.log("Final : ", fin == [] ? "No Common Interval" : fin);
+console.log("Done");
+console.log(timeline);
+
+let commonTimes = extractCommon();
+let commonTimesConvert = [];
+
+//replace minutes versions
+for(let i = 0; i < commonTimes.length; i++){
+    console.log(commonTimes[i]);
+    commonTimesConvert.push({
+        start: minToTime(commonTimes[i].start),
+        end: minToTime(commonTimes[i].end)
+    });
+}
+
+console.log("Common : ", commonTimesConvert);
+
+
+
 
 //helper functions
 
+function findUnavailable(availableTimes){
+    unavailableTimes = [];
+    for(let i = 0; i < availableTimes.length; i++){
+        if(i == 0){
+            unavailableTimes.push(findUnavailableInt(0, availableTimes[i].start));
+        }
+        else if(i == availableTimes.length - 1){
+            unavailableTimes.push(findUnavailableInt(availableTimes[i-1].end, availableTimes[i].start));
+            unavailableTimes.push(findUnavailableInt(availableTimes[i].start, 60 * 24));
+        }
+        else{
+            unavailableTimes.push(findUnavailableInt(availableTimes[i-1].end, availableTimes[i].start));
+        }
+    }
+    return unavailableTimes;
+}
+
 function createPerson(name){
-    let tmpPerson = Person(name, genIntervals());
+    let tmpPerson = Person(name, genIntervals(20, 120));
+    return tmpPerson;
+}
+
+function runAlg(people){
+    for(let i = 0; i < people.length; i++){
+        let tmpPerson = people[i];
+        for(let j = 0; j < tmpPerson.unavailableTimes.length; j++){
+            let tmpInterval = tmpPerson.unavailableTimes[j];
+            markUnavailable(tmpInterval[0], tmpInterval[1]);
+        }
+    }
+}
+
+function findUnavailableInt(endPrev, startCurr){
+    return [endPrev + 1, startCurr - 1];
+}
+
+function markUnavailable(start, end){
+    console.log("marking unavailable : ", start, " - ", end);
+    for(g = start; g <= end; g++){
+        timeline[g] = false;
+    }
+}
+
+function extractCommon(){
+    let commonInts = [];
+    let lastVal = 0;
+    let tmpStart;
+    let tmpEnd;
+    for(let i = 0; i < timeline.length; i++){
+        if(timeline[i] == true){
+            if(lastVal == 0){
+                lastVal = 1;
+                tmpStart = i;
+            }
+        }
+        else{
+            if(lastVal == 1){
+                lastVal = 0;
+                tmpEnd = i;
+                commonInts.push({start: tmpStart, end: tmpEnd});
+            }
+        }
+    }
+    if(lastVal == 1){
+        tmpStop = timeline.length;
+        commonInts.push({start: tmpStart, end: tmpStop});
+    }
+    
+    return commonInts;
 }
 
 function genBase(intervals){
@@ -64,178 +153,19 @@ function getRandom(min, max, num, string, strings){
     }
 }
 
-function splitTime(time, delimeter){
-    let min = "";
-    let hr = "";
-    let split = 0;
-    for(let i = 0; i < time.length; i++){
-        if(time[i] == delimeter){
-            split = 1;
-        }
-        else{
-            if(split == 0){
-                hr += time[i];
-            }
-            else{
-                min += time[i];
-            }
-        }
-    }
-    return {
-        hr: hr,
-        min: min
-    }
-}
-
-function compare(parentA, propA, parentB, propB, op){
-    if(op == '<'){
-        if(propA < propB){
-            return parentA;
-        }
-        else{
-            return parentB;
-        }
-    }
-    else if(op == '>'){
-        if(propA > propB){
-            return parentA;
-        }
-        else{
-            return parentB;
-        }
-    }
-    else if(op == '='){
-        if(propA == propB){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-}
-
 function timeToMin(hr, min, per){
-    let totMin = (60 * hr) + min;
+    let totMin;
+    if(hr == 12){
+        totMin = 0;
+    }
+    else{
+        totMin = (60 * hr);
+    }
+    totMin += min;
     if(per == "pm"){
         totMin += 60 * 12;
     }
     return totMin;
-}
-
-function sortAsc(base){
-    for(let i = 0; i < base.length; i++){
-        for(let j = 0; j < base.length; j++){
-            let a = base[i];
-            let b = base[j];
-            if(a[0] < b[0]){
-                base[i] = b;
-                base[j] = a
-            }
-        }
-    }
-}
-
-function converge(base, count){
-    console.log("Round ", count , " base : ", base);
-    console.log("converging");
-    let overlapped = [];
-    let nonOverlappedInts = JSON.parse(JSON.stringify(base));
-    let newBase = [];
-    let inCount = 0;
-    if(inCount < 100){
-        for(let i = 0; i < base.length; i++){
-            for(let j = i + 1; j < base.length; j++){
-                if(base[i][1] > base[j][0] && base[i][0] < base[j][1] && inCount < 100){
-                    console.log("Found Overlap : ", getOverlap(base[i], base[j]));
-                    overlapped.push(i, i + 1);
-                    newBase.push(getOverlap(base[i], base[j]));
-                }
-                inCount++;
-            }
-        }
-    }
-    //Remove overlapped values: Non-overlapped values remain
-    /*for(let i = 0; i < overlapped.length; i++){
-        nonOverlappedInts.splice(overlapped[i], 1);
-    }*/
-
-    //console.log("Adding : ", nonOverlappedInts);
-
-    count++
-    console.log("Before removing redundancies : ", newBase);
-    let revisedBase = removeRedundant(newBase)//.concat(nonOverlappedInts);
-    console.log("After removing redundancies and adding nonOverlapped : ", revisedBase);
-    console.log("newBase Final : ", revisedBase);
-    if(revisedBase.length > 1 && cmpArr(base, revisedBase) == 0){
-        console.log("Calling from round ", count);
-        return converge(revisedBase, count);
-    }
-    else if(revisedBase.length == 0){
-        return [];
-    }
-    else{
-        return revisedBase;
-    }
-}
-
-function getOverlap(a, b){
-    let start;
-    let stop;
-    //get difference between a end and b start
-    let diff = Math.abs(a[1] - b[0]);
-    //get b distance
-    let bdiff = b[1] - b[0];
-    if(bdiff < diff){
-        return Array.from(b);
-    }
-    else{
-        let tmp = Array(b[0], a[1]);
-        return tmp;
-    }
-}
-
-//remove redundancies
-function removeRedundant(a){
-    console.log("removing redundancies");
-    let vals = [];
-    let found = 0;
-    for(let i = 0; i < a.length; i++){
-        for(let j = 0; j < vals.length; j++){
-            if(cmpArr(vals[j], a[i])){
-                found = 1;
-                break;
-            }
-        }
-        if(found == 0){
-            vals.push(Array.from(a[i]));
-        }
-        found = 0;
-    }
-    return vals;
-}
-
-function cmpArr(a, b){
-    let eq = 1;
-    if(a.length != b.length){
-        return 0;
-    }
-    else{
-        if(a[0].length > 1 || b[0].length > 1){
-            for(let k = 0; k < a.length; k++){
-               eq = cmpArr(a[k], b[k]);
-            }
-    
-            return eq;
-        }
-        else{
-            for(let c = 0; c < a.length; c++){
-                if(a[c] != b[c]){
-                    eq = 0;
-                }
-            }
-            return eq;
-        }
-    }
 }
 
 //Testing Functions
@@ -244,6 +174,7 @@ function genTime(){
     let hr = getRandom(1, 12, 1, 0, null);
     let min = getRandom(0, 59, 1, 0, null);
     let per = getRandom(null, null, 0, 1, ['am', 'pm']);
+
     return {
         hr: hr,
         min: min,
@@ -261,21 +192,54 @@ function formatTime(time){
     }
 }
 
-function genIntervals(num){
+function genIntervals(num, max){
     let intervals = [];
     let tmpInt;
     let count = 0;
 
     for(let i = 0; i < num; i++){
+        console.log("max : ", max);
         let timeA = genTime();
         let timeB = genTime();
+        let a = timeToMin(timeA.hr, timeA.min, timeA.period);
+        let b = timeToMin(timeB.hr, timeB.min, timeB.period);
+        if(a > b){
+            let temp = a;
+            a = b;
+            b = temp;
+        }
+        console.log("prev int : ", a, b);
+        if(b - a > max){
+            b -= -(a + max) + b;
+            console.log("new int : ", a, b);
+        }
         tmpInt = {
-            id: count,
-            start: timeA,
-            end: timeB
+            start: a,
+            end: b
         }
         count++;
         intervals.push(tmpInt);
     }
     return intervals;
+}
+
+function minToTime(min){
+    let per;
+    let hr = Math.floor(min / 60);
+    if(min > 60 * 12){
+        per = 'pm';
+        hr -= 12;
+    }
+    else{
+        per = 'am';
+    }
+    if(hr == 0){
+        hr = 12;
+    }
+    let minutes = min % 60;
+    return {
+        hr: hr,
+        min: minutes,
+        per: per
+    }
 }
