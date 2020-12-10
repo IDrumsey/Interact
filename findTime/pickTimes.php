@@ -1,3 +1,14 @@
+<?php
+    session_start();
+    //redirect if session isn't running
+    $tmpTeam1 = "Test Team 5";
+    $tmpTeam2 = "Test Team 6";
+    $tmpRound = 0;
+    $tmpTournament = "Test tournament 2";
+    if(!isset($_SESSION['user'])){
+        header("Location: ../signIn.php?redirect=1&team1=" . $tmpTeam1 . "&team2=" . $tmpTeam2 . "&round=" . tmpRound . "&tournament=" . $tmpTournament);
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

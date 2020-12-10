@@ -295,7 +295,7 @@ let bodyEnd = bodyStart + bodyMain.offsetHeight;
 
 let dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 let startDate = new Date();
-let endDate = new Date("2020/12/9");
+let endDate = new Date("2020/12/12");
 let days = [];
 
 for(let currDate = startDate; currDate < endDate; currDate.setDate(currDate.getDate() + 1)){
@@ -524,7 +524,7 @@ function process(timeInts){
     call.onload = function(){
         console.log("Response : ", this.responseText);
         if(this.responseText == "Success"){
-            //window.location.href = "../index.php";
+            window.location.href = "../index.php";
         }
         else{
             let msgBox = document.getElementById("msg");

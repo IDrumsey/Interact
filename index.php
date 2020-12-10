@@ -30,7 +30,7 @@
             </div>
           </div>
           <div class="options">
-            <a href="./signIn.html"
+            <a href="./signIn.php"
               ><div id="signIn"><h2 id="signInText">Sign In</h2></div></a
             >
             <a href="./register.html"

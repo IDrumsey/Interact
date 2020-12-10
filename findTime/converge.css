@@ -1,0 +1,75 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+}
+
+h1, h2, h4 {
+    margin: 0;
+}
+
+#container {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(209, 209, 209);
+}
+
+#timeline {
+    width: 90%;
+    height: 25px;
+    border: 2px solid #000;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgb(255, 52, 221);
+    left: 5%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.interval {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgb(49, 199, 86);
+}
+
+#head {
+    position: absolute;
+    width: 90%;
+    height: 20%;
+}
+
+#foot {
+    position: absolute;
+    width: 90%;
+    height: 5%;
+    bottom: 38%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#foot h2 {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+}
+
+#times {
+    position: absolute;
+    width: 50%;
+    border: 2px solid #000;
+    text-align: center;
+    top: 65%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.time {
+    font-size: 20px;
+}
