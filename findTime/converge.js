@@ -5,17 +5,19 @@ function Person(name, availableTimes){
     obj.availableTimes = sortAsc(availableTimes, null, 'start');
     obj.setUnavailable = function(){this.unavailableTimes = findUnavailable(this.availableTimes);}
     obj.logAvailable = function(){
-        //console.log("Available times for Person - ", this.name);
         for(let i = 0; i < this.availableTimes.length; i++){
             let startTime = minToTime(this.availableTimes[i].start);
             let endTime = minToTime(this.availableTimes[i].end);
-            //console.log(startTime.hr, ":", startTime.min, startTime.per , " - ", endTime.hr, ":", endTime.min, endTime.per)
         }
+    }
+    obj.addAvailable = function(int){
+        obj.availableTimes.push(int);
     }
     return obj;
 }
 
 let timelineEl = document.getElementById('timeline');
+let commonTimes = document.getElementById('times');
 const maxTime = 60 * 24;
 
 //Algorithm for finding the best time for multiple peoples' schedules
@@ -29,36 +31,26 @@ const maxTime = 60 * 24;
 //get match
 let prms = new URLSearchParams(window.location.search);
 let match = prms.get("match");
-console.log("Match : ", match);
 
 //Set people
 //get people
-    let ps = JSON.stringify({
-        match: match
-    });
-    console.log(ps);
-    let call = new XMLHttpRequest();
-    //response
-    call.onload = function(){
-        console.log("Response : ", this.responseText);
-    }
+let call = new XMLHttpRequest();
+//response
+let knownInts;
+call.onload = function(){
+    //raw
+    knownInts = JSON.parse(this.responseText);
+    go(knownInts);
+}
 
-    call.open("POST", "getMatchTimes.php");
-    call.setRequestHeader("Content-type", "application/json");
-    call.send(ps);
+call.open("POST", "getMatchTimes.php");
+call.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+call.send("match=" + match);
 
-let peopleList = [];
-const timeDiff = 100;
+const timeDiff = 500;
 const numPeople = 5;
 const numIntervals = 5;
 const intDiff = 300;
-//create people
-for(let i = 0; i < numPeople; i++){
-    let tmpName = "name " + i;
-    let tmpPerson = createPerson(tmpName);
-    tmpPerson.setUnavailable();
-    peopleList.push(tmpPerson);
-}
 
 //initialize main timeline array
 let timeline = Array(60 * 24);
@@ -67,49 +59,279 @@ timeline.fill(true);
 //For each person and all their unavailable intervals mark those slots as false
 //runAlg(peopleList);
 
-
-runAlg(peopleList);
-
-let commonTimes = extractCommon(timeline);
-let commonTimesConvert = [];
-
-//replace minutes versions
-for(let i = 0; i < commonTimes.length; i++){
-    commonTimesConvert.push({
-        start: minToTime(commonTimes[i].start),
-        end: minToTime(commonTimes[i].end)
-    });
-}
-
-console.log("People : ", peopleList);
-for(let i = 0; i < peopleList.length; i++){
-    peopleList[i].logAvailable();
-}
-console.log("Common : ", commonTimesConvert);
-
-//get distances of interval
-if(commonTimes.length > 0){
-    let maxInt = 0;
-    let maxDist = 0;
-    for(let i = 0; i < commonTimes.length; i++){
-        let tmpDist = getDistance(commonTimes[i].start, commonTimes[i].end);
-        if(tmpDist > maxDist){
-            maxDist = tmpDist;
-            maxInt = i;
-        };
-    }
-    let bt = commonTimesConvert[maxInt]
-    console.log("Best interval for activity : ", printInterval(bt.start.hr, bt.start.min, bt.start.per, bt.end.hr, bt.end.min, bt.end.per));
-}
-else{
-    console.log("no common time");
-}
-
-
-
-
-
 //helper functions
+
+let peopleActual = [];
+
+function go(raw){
+    setPeople(raw);
+
+    //for all people order available
+    for(let i = 0; i < peopleActual.length; i++){
+        peopleActual[i].availableTimes = sortAsc(peopleActual[i].availableTimes, null, 'start');
+    }
+
+
+    //get all unique dates
+    let dates = getDates(peopleActual);
+    
+    //get min date
+
+
+    //for each date, assemble array of ints for that date and run alg
+
+    let finalCommon = [];
+
+    for(let i = 0; i < dates.length; i++){
+        let thisDateInts = getInts(dates[i], peopleActual);
+        //Convert each time to minutes
+        let tmpAvail = [];
+        for(let j = 0; j < thisDateInts.length; j++){
+            let ti = thisDateInts[j];
+            let ts = splitDateRaw(ti.start, ':');
+            let te = splitDateRaw(ti.end, ':');
+            let minStart = timeToMin(parseInt(ts.year),parseInt(ts.month),'pm');
+            let minEnd = timeToMin(parseInt(te.year),parseInt(te.month),'pm');
+            tmpAvail.push({start: minStart, end: minEnd});
+        }
+        
+        //get unavailable for current date
+        let thisDateUnavailable = findUnavailable(tmpAvail);
+        //converge intervals for current date
+
+        //run the algorithm
+        finalCommon.push(runAlg(dates[i], thisDateUnavailable));
+    }
+
+    let rerenderCommon = [];
+
+    //merge all common intervals as one
+    for(let i = 0; i < finalCommon.length; i++){
+        for(let j = 0; j < finalCommon[i].length; j++){
+            rerenderCommon.push(finalCommon[i][j]);
+        }
+    }
+
+
+    renderTimeline(rerenderCommon);
+    
+
+    //choose max
+    let op = getMaxInt(rerenderCommon);
+
+    let up = new XMLHttpRequest();
+    //response
+    let knownInts;
+    up.onload = function(){
+        window.location.href = "../bracketVisual/bracket.php";
+    }
+
+    up.open("POST", "addCommon.php");
+    up.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    up.send("match=" + match + "&start=" + timeObjToFormatted(minToTime(op.start)) + "&end=" + timeObjToFormatted(minToTime(op.end)));
+}
+
+function getMaxInt(arr){
+    let mxInt = arr[0];
+    let mxDist = 0;
+    for(let i = 0; i < arr.length; i++){
+        let tmpDist = getDistance(arr[i].start, arr[i].end);
+        if(tmpDist > mxDist){
+            mxDist = tmpDist;
+            mxInt = arr[i];
+        }
+    }
+    return mxInt;
+}
+
+function formatTimes(arr){
+    for(let i = 0; i < arr.length; i++){
+        
+    }
+}
+
+function setPeople(arr){
+    let prevID; 
+    let currPerson;
+    for(let i = 0; i < arr.length; i++){
+        if(i != 0){
+            //Check if curr player id is different than prev
+            if(arr[i].player_ID != prevID){
+                //create new person
+                //set currPerson to new
+                currPerson = createPerson("name " + i);
+                //push into existing
+                peopleActual.push(currPerson);
+            }
+        }
+        else {
+            //create new person
+            //set currPerson to new
+            currPerson = createPerson("name " + i);
+            //push into existing
+            peopleActual.push(currPerson);
+        }
+        //createInterval
+        let tDate = splitDateRaw(arr[i].match_date, '-');
+        let ti = createIntervalD(tDate.month, tDate.day, tDate.year, arr[i].start_time, arr[i].end_time);
+        //push new int to person
+        currPerson.addAvailable(ti);
+        //set prev id
+        prevID = arr[i].player_ID;
+    }
+}
+
+function createIntervalD(dM, dD, dY, start, end){
+    let tmpDate = new Date(dY - 1, dM, dD);
+    return {
+        date: tmpDate,
+        start: start,
+        end: end
+    };
+}
+
+function createInterval(start, end){
+    return {
+        start: start,
+        end: end
+    };
+}
+
+function splitDateRaw(date, del){
+    let tmpChar;
+    let ind = 0;
+    let month = "";
+    let day = "";
+    let year = "";
+
+    for(let i = 0; i < date.length; i++){
+        tmpChar = date[i];
+        if(tmpChar == del){
+            ind++;
+        }
+        else{
+            switch(ind){
+                case 0:
+                    year += tmpChar;
+                    break;
+                case 1:
+                    month += tmpChar;
+                    break;
+                case 2:
+                    day += tmpChar;
+                    break;
+            }
+        }
+    }
+
+    return {
+        month: month,
+        day: day,
+        year: year
+    };
+}
+
+function getDates(people){
+    let dates = [];
+    let prevDate;
+    for(let i = 0; i < people.length; i++){
+        for(let j = 0; j < people[i].availableTimes.length; j++){
+            let tmpDate = extractDateRaw(people[i].availableTimes[j].date);
+            if(i > 0 || j > 0){
+                if(tmpDate != prevDate){
+                    dates.push(people[i].availableTimes[j].date);
+                }
+            }
+            else{
+                dates.push(people[i].availableTimes[j].date);
+            }
+            prevDate = tmpDate;
+        }
+    }
+    return dates;
+}
+
+function extractDateRaw(date){
+    let d = date.getDay();
+    let m = date.getMonth() - 1;
+    if(m == -1){
+        m = 12;
+    }
+    let y = date.getFullYear();
+    let td = m + "/" + d + "/" + y;
+
+    return td;
+}
+
+function getMinDate(people){
+    let minDate;
+    for(let i = 0; i < people.length; i++){
+        let currP = people[i];
+        for(let j = 0; j < currP.availableTimes.length; j++){
+            //Check if currDate is less than min
+            if(i > 0 || j > 0){
+                if(currP.availableTimes[j].date < minDate){
+                    minDate = currP.availableTimes[j].date;
+                }
+            }
+            else{
+                minDate = currP.availableTimes[j].date;
+            }
+        }
+    }
+    return minDate;
+}
+
+function getInts(date, people){
+    let dateC = extractDateRaw(date);
+    let tmpIntervals = [];
+    for(let c = 0; c < people.length; c++){
+        let tmpPerson = people[c];
+        for(let k = 0; k < tmpPerson.availableTimes.length; k++){
+            let tmpInterval = tmpPerson.availableTimes[k];
+            if(extractDateRaw(tmpInterval.date) == dateC){
+                //Problem
+                let tmpInt = createInterval(tmpInterval.start, tmpInterval.end);
+                tmpIntervals.push(tmpInt);
+            }
+        }
+    }
+    return tmpIntervals;
+}
+
+function rawTimeToFormat(time){
+    let tmpTime = splitRawTime(time);
+}
+
+function splitRawTime(time, delimeter){
+    let hr = "";
+    let min = "";
+    let sec = "";
+    ind = 0;
+    for(let i = 0; i < time.length; i++){
+        if(time[i] == delimeter){
+            ind++;
+        }
+        else{
+            switch(ind){
+                case 0:
+                    hr += time[i];
+                    break;
+                case 1:
+                    min += time[i];
+                    break;
+                case 2:
+                    sec += time[i];
+                    break;
+            }
+        }
+    }
+    return {
+        hr: hr,
+        min: min,
+        sec: sec
+    }
+}
 
 function printInterval(startHr, startMin, startPer, endHr, endMin, endPer){
     return (startHr + ":" + startMin + startPer + ' - ' + endHr + ":" + endMin + endPer);
@@ -157,8 +379,12 @@ function renderTimeline(intervals){
 function findUnavailable(availableTimes){
     unavailableTimes = [];
     for(let i = 0; i < availableTimes.length; i++){
-        if(i == 0){
+        if(i == 0 && i != availableTimes.length - 1){
             unavailableTimes.push(findUnavailableInt(-1, availableTimes[i].start));
+        }
+        else if(i == 0 && i == availableTimes.length - 1){
+            unavailableTimes.push(findUnavailableInt(-1, availableTimes[i].start));
+            unavailableTimes.push(findUnavailableInt(availableTimes[i].end, 60 * 24));
         }
         else if(i == availableTimes.length - 1){
             unavailableTimes.push(findUnavailableInt(availableTimes[i-1].end, availableTimes[i].start));
@@ -172,29 +398,42 @@ function findUnavailable(availableTimes){
 }
 
 function createPerson(name){
-    let tmpPerson = Person(name, genIntervals(numIntervals, intDiff));
+    let tmpPerson = Person(name, []);
     return tmpPerson;
 }
 
-function runAlg(people){
-    for(let i = 0; i < people.length; i++){
-        let tmpPerson = people[i];
-        for(let j = 0; j < tmpPerson.unavailableTimes.length; j++){
-            //console.log("rendering");
-            let tmpInterval = tmpPerson.unavailableTimes[j];
-            //console.log("rendering");
-            markUnavailable(timeline, tmpInterval[0], tmpInterval[1]);
-            let tmpIntervals = extractCommon(timeline);
-            if(i == 0 && j == 0){
-                renderTimeline(tmpIntervals);
-            }
-            else{
-                let t = setTimeout(renderTimeline, ((tmpPerson.unavailableTimes.length * i) + j) * timeDiff, tmpIntervals);
-            }
+function runAlg(date, ut){
+    for(let j = 0; j < ut.length; j++){
+        let tmpInterval = ut[j];
+        markUnavailable(timeline, tmpInterval[0], tmpInterval[1]);
+        let tmpIntervals = extractCommon(timeline);
+        if(j == 0){
+            renderTimeline(tmpIntervals);
         }
+        else{
+            renderTimeline(tmpIntervals);
+        }
+    }
+    //get the common
+    let dateCommon = extractCommon(timeline);
+    //reset the timeline
+    timeline.fill(true);
+    renderCommon(dateCommon);
+    return dateCommon;
+}
+
+function renderCommon(common){
+    for(let i = 0; i < common.length; i++){
+        let tmpEl = document.createElement('h1');
+        tmpEl.classList.add("commonTime");
+        tmpEl.innerText = printTimeObj(minToTime(common[i].start)) + " - " + printTimeObj(minToTime(common[i].end));
+        commonTimes.appendChild(tmpEl);
     }
 }
 
+function timeObjToFormatted(time){
+    return time.hr + ":" + time.min;
+}
 
 function findUnavailableInt(endPrev, startCurr){
     return [endPrev + 1, startCurr - 1];
@@ -369,4 +608,8 @@ function sortAsc(arr, ind, prop){
         }
     }
     return arr;
+}
+
+function printTimeObj(o){
+    return o.hr + ":" + o.min + o.per;
 }
