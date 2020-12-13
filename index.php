@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./index.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <title>Visiter Home</title>
   </head>
   <body>
@@ -21,20 +25,16 @@
             </div>
             <div id="Body">
               <p id="BodyText">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum,
-                molestiae eaque ab odio quasi itaque reiciendis ducimus voluptas
-                distinctio molestias explicabo nesciunt? Dolores laborum harum
-                obcaecati qui velit quos blanditiis libero voluptates officia?
-                Rerum distinctio temporibus in, sequi dignissimos animi!
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, iusto.
               </p>
             </div>
           </div>
           <div class="options">
-            <a href="./signIn.php"
-              ><div id="signIn"><h2 id="signInText">Sign In</h2></div></a
+          <a href="./register.html"
+              ><div class="innerCircle" id="register" ><i class="fa fa-address-card-o"></i><div class="option"></div></div></a
             >
-            <a href="./register.html"
-              ><div id="register"><h2 id="registerText">Register</h2></div></a
+            <a href="./signIn.php"
+              ><div class="innerCircle" id="signIn"><i class="fa fa-sign-in"></i><div class="option"></div></div></a
             >
           </div>
           <div id="Upcoming">
