@@ -88,7 +88,7 @@ p {
 }
 
 .innerCircle:hover .option {
-  background-image: linear-gradient(rgb(86, 255, 176) 15%, rgb(255, 255, 255) 15%);
+  background-image: linear-gradient(rgb(0, 73, 33) 10%, rgb(255, 255, 255) 20%);
   animation: spin 1000ms ease-in-out infinite;
 }
 

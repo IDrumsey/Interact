@@ -9,10 +9,19 @@ a {
   color: #000;
 }
 
+#container {
+  width: 100%;
+  height: 100%;
+  background-image: url("images/take3.jpg");
+  background-size: auto 100%;
+}
+
 #head {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: rgba(0, 0, 0, .3) !important;
+  backdrop-filter: blur(15px);
 }
 
 #head h1 {
@@ -20,10 +29,6 @@ a {
 }
 
 #body {
-  width: 100%;
-}
-
-#content {
   width: 80%;
   height: 80%;
   margin: auto;
@@ -39,11 +44,46 @@ a {
 }
 
 .inputField .Title {
-  text-align: left;
   margin-bottom: 5px;
   font-size: 35px;
-  color: #000;
+  color: rgb(255, 255, 255);
+  position: relative;
+  text-align: left;
+  transition: text-shadow 200ms ease-in;
 }
+
+input {
+  opacity: .75;
+  transition: opacity 200ms linear;
+}
+
+.slideRight {
+  animation: slideRight 250ms linear forwards;
+}
+
+@keyframes slideRight {
+  from {
+    left: 0%
+  }
+  to {
+    left: 5%;
+  }
+}
+
+.slideLeft {
+  animation: slideLeft 250ms linear forwards;
+}
+
+@keyframes slideLeft {
+  from {
+    left: 5%;
+  }
+  to {
+    left: 0%;
+  }
+}
+
+
 
 .inputField input {
   width: 100%;
@@ -55,6 +95,15 @@ a {
 
 input:focus {
   outline: none;
+  opacity: 1;
+}
+
+#user:focus {
+  box-shadow: 0 0 10px rgba(255, 86, 165, 0.75);
+}
+
+#pass:focus {
+  box-shadow: 0 0 10px rgba(86, 179, 255, 0.75);
 }
 
 #register {
@@ -100,29 +149,51 @@ input:focus {
 }
 
 #options div {
-  border: 2px solid #000;
   border-radius: 5px;
   width: 40%;
   font-size: 25px;
   padding: 10px 0;
+  background-color: #000;
+  position: relative;
+  transition: transform 1000ms ease-in-out;
+}
+
+#options div h3 {
+  backface-visibility: hidden;
 }
 
 #backBtn {
   float: left;
   cursor: pointer;
-  color: #000;
+  color: #fff;
+}
+
+#options div:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #fff;
+  transform: rotate3d(1, 0, 0, 360deg);
+}
+
+#backBtn:hover h3 {
+  text-shadow: 0 5px 10px rgba(255, 86, 165, 0.75);
+}
+
+#signInBtn:hover h3 {
+  text-shadow: 0 5px 10px rgba(86, 179, 255, 0.75);
 }
 
 #signInBtn {
   float: right;
   cursor: pointer;
-  color: #000;
+  color: #fff;
 }
 
 #foot {
   display: grid;
   grid-template-columns: 20% 60% 20%;
   text-align: center;
+  background: rgba(0, 0, 0, .5) !important;
+  backdrop-filter: blur(15px);
 }
 
 #foot div {

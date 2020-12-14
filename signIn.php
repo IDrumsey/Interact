@@ -41,15 +41,14 @@
         <h1>SIGN IN</h1>
       </div>
       <div id="body">
-        <div id="content">
           <form id="signInForm" method="POST" action=<?php echo $red; ?>>
             <div class="inputField username">
-              <h4 class="Title">Username</h4>
-              <input type="text" id="user" name="user" />
+              <h4 class="Title" id="userTitle">Username</h4>
+              <input type="text" id="user" name="user" class="fi"/>
             </div>
             <div class="inputField">
-              <h4 class="Title">Password</h4>
-              <input type="password" id="pass" name="pass" />
+              <h4 class="Title" id="passTitle">Password</h4>
+              <input type="password" id="pass" name="pass" class="fi"/>
             </div>
           </form>
           <div id="register">
@@ -64,12 +63,9 @@
             <div id="backBtn" onclick="history.back();"><h3>Back</h3></div>
             <div id="signInBtn"><h3>Sign In</h3></div>
           </div>
-        </div>
       </div>
       <div id="foot">
-        <div id="backBtn" onclick="history.back();">
-          <i class="fa fa-arrow-circle-o-left"></i>
-        </div>
+        <div></div>
         <div id="vault"><h2>Vault</h2></div>
         <div id="settings"><i class="fa fa-cog"></i></div>
       </div>

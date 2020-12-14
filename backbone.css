@@ -16,7 +16,6 @@ h1 {
 }
 
 #container #head {
-  border-bottom: 2px solid #fff;
   background-color: #000;
 }
 
@@ -25,7 +24,6 @@ h1 {
 }
 
 #container #foot {
-  border-top: 2px solid #fff;
   background-color: #000;
 }
 
