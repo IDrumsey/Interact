@@ -60,8 +60,24 @@
             >
           </div>
           <div id="options">
-            <div id="backBtn" onclick="history.back();"><h3>Back</h3></div>
-            <div id="signInBtn"><h3>Sign In</h3></div>
+            <div class="btnWrap" id="backBtn">
+              <div class="btnBorderTOP"></div>
+              <div class="btnBorderBOTTOM"></div>
+              <div class="btnBorderLEFT"></div>
+              <div class="btnBorderRIGHT"></div>
+              <div class="btn" onclick="history.back();">
+                <i class="fa fa-chevron-left"></i>
+              </div>
+            </div>
+            <div class="btnWrap" id="signInBtn">
+              <div class="btnBorderTOP"></div>
+              <div class="btnBorderBOTTOM"></div>
+              <div class="btnBorderLEFT"></div>
+              <div class="btnBorderRIGHT"></div>
+              <div class="btn">
+              <i class="fa fa-sign-in"></i>
+              </div>
+            </div>
           </div>
       </div>
       <div id="foot">
@@ -71,5 +87,6 @@
       </div>
     </div>
     <script src="./logIn.js"></script>
+    <script src="test.js"></script>
   </body>
 </html>
