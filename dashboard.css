@@ -12,40 +12,57 @@ h3 {
 #container {
   position: absolute;
   z-index: 1;
+  background-image: url("images/take3.jpg") !important;
+  background-size: 100% auto;
 }
 
 #head {
   display: grid;
-  grid-template-columns: 70% 30%;
-  background-color: rgb(0, 15, 27);
+  grid-template-columns: 75% 25%;
+  background-color: rgba(0, 0, 0, 0.37) !important;
+  backdrop-filter: blur(35px);
   color: #fff;
 }
 
 #head .title {
   text-align: left;
+  padding-left: 5%;
   display: flex;
   align-items: center;
 }
 
 #titleText {
-  padding-left: 40px;
-  font-size: 50px;
-  text-shadow: 0 0 10px rgb(132, 196, 255);
+  font-size: 38px;
+  text-shadow: 0 0 10px #0066ff !important;
 }
 
 #profile {
+  position: relative;
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 
-#profile a {
+#profile div {
   cursor: pointer;
   color: #000;
   text-decoration: none;
   display: flex;
-  justify-content: center;
   align-items: center;
+  position: absolute;
+  right: 15%;
+}
+
+.spin {
+  animation: spinH 1900ms cubic-bezier(1, 0, .5, 1);
+}
+
+@keyframes spinH {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(1460deg);
+  }
 }
 
 #profilePic {
@@ -53,11 +70,20 @@ h3 {
   height: 50px;
   border-radius: 100%;
   border: 3px solid #fff;
+  transition: border-color 200ms linear;
+}
+
+#profilePic:hover {
+  border-color: #b1b1b1;
 }
 
 #body {
   overflow-y: scroll;
   color: #000;
+}
+
+#body::-webkit-scrollbar {
+  display: none;
 }
 
 #body .title {
@@ -278,4 +304,5 @@ Use to indicate a win or loss
 
 .sectionTitle {
   color: #fff;
+  text-shadow: 0 0 10px #0066ff !important;
 }

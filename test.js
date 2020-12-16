@@ -11,12 +11,11 @@ for(let i = 0; i < btnwrap.length; i++){
 let t;
 
 function openBorder(){
+    clearTimeout(t);
     let bt = this.getElementsByClassName("btnBorderTOP")[0];
     let bb = this.getElementsByClassName("btnBorderBOTTOM")[0];
     let bl = this.getElementsByClassName("btnBorderLEFT")[0];
     let br = this.getElementsByClassName("btnBorderRIGHT")[0];
-    console.log("opening");
-    console.log(bt, bb, bl, br);
     expandBorder(bt, 1, 0);
     t = setTimeout(expandBorder, timeInt, br, 0, 1);
     t = setTimeout(expandBorder, timeInt * 2, bb, 1, 0);
@@ -24,11 +23,11 @@ function openBorder(){
 }
 
 function closeBorder(){
+    clearTimeout(t);
     let bt = this.getElementsByClassName("btnBorderTOP")[0];
     let bb = this.getElementsByClassName("btnBorderBOTTOM")[0];
     let bl = this.getElementsByClassName("btnBorderLEFT")[0];
     let br = this.getElementsByClassName("btnBorderRIGHT")[0];
-    console.log("collapsing");
     collapseBorder(bl, 0, 1);
     t = setTimeout(collapseBorder, timeInt, bb, 1, 0);
     t = setTimeout(collapseBorder, timeInt * 2, br, 0, 1);

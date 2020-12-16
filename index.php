@@ -31,10 +31,10 @@
           </div>
           <div class="options">
           <a href="./register.html"
-              ><div class="innerCircle" id="register" ><i class="fa fa-address-card-o"></i><div class="option"></div></div></a
+              ><div class="innerCircle" id="register" ><i class="fa fa-address-card-o"></i><div class="option" id="registerAn"></div></div></a
             >
             <a href="./signIn.php"
-              ><div class="innerCircle" id="signIn"><i class="fa fa-sign-in"></i><div class="option"></div></div></a
+              ><div class="innerCircle" id="signIn"><i class="fa fa-sign-in"></i><div class="option" id="signInAn"></div></div></a
             >
           </div>
           <div id="Upcoming">

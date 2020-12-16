@@ -9,6 +9,10 @@ h2 {
   margin: 0;
 }
 
+input[type="password"]::-ms-reveal {
+  display: none;
+}
+
 a {
   text-decoration: none;
   color: #000;
@@ -35,9 +39,9 @@ a {
 
 #body {
   width: 80%;
-  height: 80%;
+  height: 90%;
   margin: auto;
-  margin-top: 50px;
+  margin-bottom: 0;
   text-align: center;
   position: relative;
 }
@@ -60,6 +64,8 @@ a {
 input {
   opacity: .75;
   transition: opacity 200ms linear;
+  font-family: 'Courier', 'Times New Roman';
+  font-weight: bold;
 }
 
 .slideRight {
@@ -111,41 +117,50 @@ input:focus {
   box-shadow: 0 0 10px rgba(86, 179, 255, 0.75);
 }
 
-#register {
-  width: 80%;
-  height: 50px;
-  margin: auto;
-  margin-top: 30px;
-  display: grid;
-  grid-template-columns: 60% 40%;
-}
-
-#register #title {
-  color: #404040;
+#title {
+  color: #fff;
   text-align: left;
   font-style: italic;
   font-size: 25px;
   line-height: 50px;
+  text-shadow: 0 0 10px #0066ff;
+  text-align: center;
 }
 
-#register #registerBtn {
-  border: 2px solid #000;
+#register {
+  width: 100%;
+}
+
+#registerBtn {
+  border: 2px solid #fff;
   border-radius: 5px;
   font-size: 25px;
-  line-height: 50px;
+  padding: 10px 2px;
+  background-color: rgba(0, 0, 0, 0.479);
+  backdrop-filter: blur(20px);
+  color: #fff;
+  width: 100%;
+  position: absolute;
+  transition: background-color 200ms linear;
+}
+
+#registerBtn:hover {
+  width: 102%;
+  left: -1%;
+  font-size: 27px;
+  background-color: rgba(0, 0, 0, 0.726);
 }
 
 #failedSignIn {
   margin-top: 50px;
-  color: #9e1010;
+  color: #fff;
 }
 
 #options {
   position: absolute;
-  bottom: 0;
-  height: 20%;
+  bottom: 20px;
+  height: 15%;
   width: 100%;
-  margin-bottom: 20px;
 }
 
 #options a {

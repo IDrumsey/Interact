@@ -39,7 +39,7 @@ include_once $docPath . "/Interact/getColorPreferences.php";
           <h1 id="titleText">DASHBOARD</h1>
         </div>
         <div id="profile">
-        <?php echo "<a href='./player.php?player=" . $_SESSION['user'] . "'> <img src='" . $profile_image . "' alt='Profile Picture' id='profilePic'></a>"; ?>
+        <?php echo "<div onclick='redir(1);' class='spinEl'> <img src='" . $profile_image . "' alt='Profile Picture' id='profilePic'></div>"; ?>
         </div>
       </div>
       <div id="body">
@@ -201,7 +201,10 @@ include_once $docPath . "/Interact/getColorPreferences.php";
     </div>
   </body>
   <script src="/Interact/base.js"></script>
+  <script src="/Interact/spin.js"></script>
   <script type="text/javascript">
+  setListeners('spinEl');
+  var userName = "<?php echo $_SESSION['user']; ?>";
   var primaryColor = <?php echo json_encode($_SESSION['primaryColor']); ?>;
   var secondaryColor = <?php echo json_encode($_SESSION['secondaryColor']); ?>;
   var tertiaryColor = <?php echo json_encode($_SESSION['tertiaryColor']); ?>;

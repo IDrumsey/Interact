@@ -4,9 +4,23 @@ h2 {
   margin: 0;
 }
 
+input[type="password"]::-ms-reveal {
+  display: none;
+}
+
 a {
   text-decoration: none;
   color: #000;
+}
+
+#container {
+  background-image: url("images/take3.jpg");
+  background-size: auto 100%;
+}
+
+#head {
+  background: rgba(0, 0, 0, .3) !important;
+  backdrop-filter: blur(15px);
 }
 
 #title {
@@ -22,6 +36,10 @@ a {
   color: #000;
 }
 
+#body::-webkit-scrollbar {
+  display: none;
+}
+
 #errors {
   width: 80%;
   margin: auto;
@@ -31,7 +49,6 @@ a {
 
 #content {
   width: 80%;
-  height: 80%;
   margin: auto;
   margin-top: 20px;
   text-align: center;
@@ -48,6 +65,8 @@ a {
   text-align: left;
   margin-bottom: 5px;
   font-size: 35px;
+  position: relative;
+  color: #fff;
 }
 
 .inputField input {
@@ -56,10 +75,13 @@ a {
   height: 5vh;
   font-size: 25px;
   text-align: center;
+  font-family: 'Courier', 'Times New Roman';
+  font-weight: bold;
 }
 
 input:focus {
   outline: none;
+  box-shadow: 0 0 10px rgba(86, 179, 255, 0.75);
 }
 
 .confirm {
@@ -76,27 +98,37 @@ input:focus {
 }
 
 #register #altRoute {
-  color: #404040;
+  color: #fff;
   text-align: left;
   font-style: italic;
   font-size: 25px;
   line-height: 50px;
   text-align: center;
+  text-shadow: 0 0 10px #0066ff;
 }
 
 #register #signInBtn {
-  border: 2px solid #000;
+  margin: auto;
+  border: 2px solid #fff;
   border-radius: 5px;
   font-size: 25px;
   line-height: 50px;
   width: 50%;
-  margin-left: 25%;
+  background-color: rgba(0, 0, 0, 0.479);
+  backdrop-filter: blur(20px);
+  color: #fff;
+  transition: background-color 200ms linear;
+}
+
+#register #signInBtn:hover {
+  width: 52%;
+  font-size: 26px;
+  background-color: rgba(0, 0, 0, 0.726);
 }
 
 #options {
   width: 100%;
   text-align: center;
-  margin-top: 25px;
 }
 
 #options a {
@@ -105,34 +137,72 @@ input:focus {
 
 #registerBtn {
   margin: auto;
-  border: 2px solid #000;
+  border: 2px solid #fff;
   border-radius: 5px;
   width: 80%;
   font-size: 30px;
   padding: 10px 0;
   cursor: pointer;
+  margin-top: 25px;
+  margin-bottom: 50px;
+  background-color: rgba(0, 0, 0, 0.479);
+  backdrop-filter: blur(20px);
+  color: #fff;
+  transition: background-color 200ms linear;
+}
+
+#registerBtn:hover {
+  width: 82%;
+  font-size: 31px;
+  background-color: rgba(0, 0, 0, 0.726);
 }
 
 #foot {
   display: grid;
   grid-template-columns: 20% 60% 20%;
   text-align: center;
+  background: rgba(0, 0, 0, .5) !important;
+  backdrop-filter: blur(15px);
+  align-items: center;
 }
 
-#foot div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#foot #backBtn,
-#foot #settings {
+#foot #backBtn {
   font-size: 40px;
+  color: #fff;
+  grid-column: 1/2;
 }
 
 #foot #backBtn {
   cursor: pointer;
+  transition: text-shadow 200ms linear;
 }
 
-#foot #vault {
-  font-size: 25px;
+#backBtn:hover {
+  text-shadow: 0 0 10px #0066ff;
+}
+
+.slideRight {
+  animation: slideRight 250ms linear forwards;
+}
+
+@keyframes slideRight {
+  from {
+    left: 0%
+  }
+  to {
+    left: 5%;
+  }
+}
+
+.slideLeft {
+  animation: slideLeft 250ms linear forwards;
+}
+
+@keyframes slideLeft {
+  from {
+    left: 5%;
+  }
+  to {
+    left: 0%;
+  }
 }

@@ -65,9 +65,11 @@
               <div class="btnBorderBOTTOM"></div>
               <div class="btnBorderLEFT"></div>
               <div class="btnBorderRIGHT"></div>
-              <div class="btn" onclick="history.back();">
-                <i class="fa fa-chevron-left"></i>
-              </div>
+              <a href="./index.php">
+                <div class="btn" onclick="history.back();">
+                  <i class="fa fa-chevron-left"></i>
+                </div>
+              </a>
             </div>
             <div class="btnWrap" id="signInBtn">
               <div class="btnBorderTOP"></div>
@@ -87,6 +89,7 @@
       </div>
     </div>
     <script src="./logIn.js"></script>
+    <script src="shiftTitle.js"></script>
     <script src="test.js"></script>
   </body>
 </html>
