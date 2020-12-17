@@ -13,7 +13,7 @@ h3 {
   position: absolute;
   z-index: 1;
   background-image: url("images/take3.jpg") !important;
-  background-size: 100% auto;
+  background-size: auto 100%;
 }
 
 #head {
@@ -101,14 +101,33 @@ h3 {
 
 .list {
   border: 2px solid #000;
-  height: 100px;
+  height: auto;
+  min-height: 50px;
+  max-height: 250px;
   box-shadow: 5px 1px 4px 1px #000;
   overflow-y: scroll;
-  background-color: #fff;
+  color: #fff;
+  background-color: rgba(17, 17, 17, 0.7);
+  backdrop-filter: blur(20px);
 }
 
 .list::-webkit-scrollbar {
   display: none;
+}
+
+.list > div {
+  height: 50px;
+  align-items: center;
+  transition: background-color 100ms;
+}
+
+.list > div:hover {
+  background-color: rgba(54, 54, 54, 0.25);
+}
+
+.list > div > div {
+  height: 100%;
+  align-items: center;
 }
 
 .upcomingGame {
@@ -189,6 +208,7 @@ h3 {
 
 #options {
   width: 80%;
+  height: 50px;
   margin: auto;
   margin-top: 50px;
   display: grid;
@@ -196,9 +216,25 @@ h3 {
 }
 
 #options a {
-  color: #000;
   text-decoration: none;
-  background-color: #fff;
+}
+
+.option {
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.70);
+  backdrop-filter: blur(20px);
+  width: 50%;
+  height: 100%;
+  margin: auto;
+  font-size: 35px;
+  text-shadow: 0 0 5px rgb(77, 176, 233);
+  box-shadow: 0 10px 4px -5px #000;
+  transition: box-shadow 150ms, transform 150ms;
+}
+
+.option:hover {
+  box-shadow: 0 8px 4px -5px #000;
+  transform: scale(.95);
 }
 
 #teams {
@@ -208,7 +244,6 @@ h3 {
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 5px 1px 4px 1px #000;
 }
 
 #play {
@@ -218,7 +253,6 @@ h3 {
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 5px 1px 4px 1px #000;
 }
 
 #history {
@@ -265,7 +299,8 @@ Use to indicate a win or loss
 #foot {
   display: grid;
   grid-template-columns: 20% 60% 20%;
-  background-color: rgb(0, 9, 17);
+  background-color: rgba(0, 0, 0, 0.80) !important;
+  backdrop-filter: blur(20px);
   color: #fff;
 }
 
@@ -273,6 +308,11 @@ Use to indicate a win or loss
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: box-shadow 150ms;
+}
+
+#foot > div:hover {
+  box-shadow: 0 -5px 10px -7px #fff;
 }
 
 #foot #signOut {
@@ -284,13 +324,17 @@ Use to indicate a win or loss
   color: #fff;
 }
 
+#foot a, #foot h1 {
+  transition: text-shadow 150ms;
+}
+
+#foot a:hover, #foot h1:hover, #foot i:hover {
+  text-shadow: 0 0 10px rgba(86, 179, 255, 0.75);
+}
+
 #foot #vault {
   font-size: 25px;
   cursor: pointer;
-}
-
-#foot #vault:hover {
-  font-size: 26px;
 }
 
 #foot #settings {
@@ -298,8 +342,13 @@ Use to indicate a win or loss
   font-size: 35px;
 }
 
+#settingsBtn {
+  transition: text-shadow 250ms, transform 500ms;
+}
+
 #settingsBtn:hover {
   cursor: pointer;
+  transform: rotateZ(45deg);
 }
 
 .sectionTitle {

@@ -156,8 +156,8 @@ include_once $docPath . "/Interact/getColorPreferences.php";
           </div>
         </div>
         <div id="options">
-          <?php echo "<a href='./teams.homepage.php?player=" . $_SESSION['user'] . "' id='teams'><h2>TEAMS</h2></a>"; ?>
-          <a href="play.home.php" id='play'><h2>PLAY</h2></a>
+          <?php echo "<a href='./teams.homepage.php?player=" . $_SESSION['user'] . "' id='teams' class='option'><i class='fa fa-group'></i></a>"; ?>
+          <a href="play.home.php" id='play' class='option'><i class="fa fa-gamepad"></i></a>
         </div>
         <div id="history">
           <div class="title"><h2 class="sectionTitle">History</h2></div>

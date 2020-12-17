@@ -82,7 +82,7 @@
                     }
                     break;
                 case "text-shadow":
-                    tempRef.ref.style.textShadow = "0 0 10px " + tempColor;
+                    //tempRef.ref.style.textShadow = "0 0 10px " + tempColor;
                     break;
                 case "border":
                     let tempWidth = tempRef.attributes['borderWidth'];
