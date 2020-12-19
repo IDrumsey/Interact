@@ -30,11 +30,13 @@ if(isset($conn)){
         </div>
         <div id="games">
           <h2 class="title">Played Games</h2>
-          <div id="gameList">
+          <div id="gameList" class="list">
             <?php
             for($i = 0; $i < sizeof($games); $i++){
               echo "<div class='game'>
-              <div class='gameBackground'></div>
+              <div class='gameBackground'>
+                <div class='bckStreak'></div>
+              </div>
               <div class='gameTitle'><h2>" . $games[$i]['title'] . "</h2></div>
             </div>";
             }
@@ -43,7 +45,7 @@ if(isset($conn)){
         </div>
         <div id="teams">
           <h2 class="title">Teams</h2>
-          <div id="teamList">
+          <div id="teamList" class="list">
             <?php
             for($i = 0; $i < sizeof($user_teams); $i++){
               echo "<div class='team'>

@@ -45,21 +45,19 @@ if(session_id() == ""){
           <form action="" id="filterGames" method="POST">
             <select name="gameOptions[]" id="gameOptions" class="fillPrim" multiple>
               <option value="Overwatch" class="highlightText">Overwatch</option>
-              <option value="Overwatch2" class="highlightText">Overwatch2</option>
-              <option value="Overwatch3" class="highlightText">Overwatch3</option>
             </select>
           </form>
           </div>
-          <div id="searchBtn"><h2 class="highlightText fillPrim">Search</h2></div>
+          <div id="searchBtn"><h2 class="highlightText fillPrim"><i class="fa fa-search"></i></h2></div>
           <div id="tournamentList" class="fillPrim">
             <?php
             for($i = 0; $i < sizeof($tournaments); $i++){
-              echo "<div class='tournament'>
-              <div class='gameTitle'><h2>" . $tournaments[$i]['title'] . "</h2></div>
-              <a href='./bracketVisual/bracket.php?tournamentName=" . $tournaments[$i]['tournament_Name'] . "' class='tournamentName'><h2>" . $tournaments[$i]['tournament_Name'] . "</h2></a>
-              <div class='startDate'><h2>" . $tournaments[$i]['start_date'] . "</h2></div>
-              <div class='numTeams'><h2>2</h2></div>
-              </div>";
+              echo "<a class='tournament' href='./bracketVisual/bracket.php?tournamentName=" . $tournaments[$i]['tournament_Name'] . "'>
+              <i class='fa fa-trophy'></i><div class='gameTitle'><h2>" . $tournaments[$i]['title'] . "</h2></div><div class='startDate'><h2>" . $tournaments[$i]['start_date'] . "</h2></div>
+              <div class='tournamentName'><h2>" . $tournaments[$i]['tournament_Name'] . "</h2></div>
+              <div class='numTeams'><h2>Registered Teams : 2</h2></div>
+              <div class='owner'><h2>Created By : Player Name</h2></div>
+              </a>";
             }
             ?>
           </div>
@@ -68,7 +66,6 @@ if(session_id() == ""){
           <a href="./tournament.create.php"
             ><div id="create" class="fillPrim"><h2 class="highlightText">Create</h2></div></a
           >
-          <div id="join" class="fillPrim"><h2 class="highlightText">Join</h2></div>
         </div>
       </div>
       <div id="foot">

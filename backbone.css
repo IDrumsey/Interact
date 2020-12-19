@@ -11,6 +11,42 @@ body,
   color: #fff;
 }
 
+#head {
+  background-color: rgba(0, 0, 0, 0.37);
+  backdrop-filter: blur(35px);
+}
+
+#container {
+  background-image: url("images/take3.jpg") !important;
+  background-size: auto 100%;
+}
+
+.list {
+  border: 2px solid #000;
+  height: auto;
+  min-height: 50px;
+  max-height: 250px;
+  box-shadow: 5px 1px 4px 1px #000;
+  overflow-y: scroll;
+  color: #fff;
+  background-color: rgba(17, 17, 17, 0.7);
+  backdrop-filter: blur(20px);
+}
+
+.list::-webkit-scrollbar {
+  display: none;
+}
+
+.list > div {
+  height: 50px;
+  align-items: center;
+  transition: background-color 100ms;
+}
+
+.list > div:hover {
+  background-color: rgba(54, 54, 54, 0.25);
+}
+
 h1 {
   margin: 0;
 }
@@ -24,7 +60,11 @@ h1 {
 }
 
 #container #foot {
-  background-color: #000;
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  background-color: rgba(0, 0, 0, 0.80);
+  backdrop-filter: blur(20px);
+  color: #fff;
 }
 
 #settingsMenu {

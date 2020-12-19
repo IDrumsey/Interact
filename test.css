@@ -32,6 +32,12 @@ h1 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    mix-blend-mode: difference;
+    background-image: linear-gradient(rgb(172, 52, 52), rgb(29, 18, 126));
+}
+
+#btn h1 {
+    color: #fff;
 }
 
 #btnBorderTOP {
@@ -79,4 +85,24 @@ h1 {
 
 #btn:hover {
     cursor: pointer;
+}
+
+#Wrap {
+    width: 50%;
+    height: 50%;
+    background-image: linear-gradient(to right, rgb(0, 6, 39), rgb(4, 2, 92));
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+}
+
+#Wrap h1 {
+    text-align: center;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    mix-blend-mode: exclusion;
 }

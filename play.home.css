@@ -35,12 +35,21 @@ h2 {
   margin-bottom: 15px;
 }
 
+#tournamentListTitle {
+  font-size: 35px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
 #gameOptions {
   width: 100%;
-  height: 100%;
+  height: 50px;
   border: 2px solid #fff;
-  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.70) !important;
+  backdrop-filter: blur(5px);
   border-radius: 5px;
+  min-height: 50px;
+  max-height: 200px;
 }
 
 #gameOptions::-webkit-scrollbar {
@@ -48,23 +57,36 @@ h2 {
 }
 
 #gameOptions option {
-  height: 25px;
-  font-size: 20px;
-  padding: 5px;
+  height: 50px;
+  font-size: 32px;
+  padding-top: 5px;
   border-bottom: 2px solid #fff;
   font-weight: bold;
   text-align: center;
   color: #fff;
 }
 
+#gameOptions option:last-child {
+  border-bottom: none;
+}
+
 #searchBtn {
-  border: 2px solid #000;
+  margin-left: auto;
+  width: 50px;
+  height: 50px;
   border-radius: 5px;
   margin-bottom: 10px;
 }
 
 #searchBtn h2 {
   text-align: center;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 35px;
+  /*Take out on production*/
+  background-color: transparent !important;
+
 }
 
 #searchBtn:hover {
@@ -75,9 +97,10 @@ h2 {
   border: 2px solid #000;
   border-radius: 5px;
   height: auto;
-  min-height: 40px;
+  min-height: 50px;
   max-height: 200px;
   overflow-y: scroll;
+  background-color: rgba(0, 0, 0, 0.70) !important;
 }
 
 #tournamentList::-webkit-scrollbar {
@@ -85,12 +108,19 @@ h2 {
 }
 
 .tournament {
-  width: 200%;
+  width: 100%;
+  text-decoration: none;
+  color: #fff;
   overflow-x: scroll;
   display: grid;
-  grid-template-columns: 25% 45% 20% 10%;
-  border-bottom: 2px solid #000;
-  height: 40px;
+  grid-template-columns: repeat(1fr, 10);
+  grid-template-rows: repeat(1fr, 5);
+  align-items: center;
+  justify-items: left;
+  border-bottom: 2px solid rgb(255, 255, 255);
+  row-gap: 5px;
+  height: auto;
+  padding: 10px 0;
 }
 
 .tournament::-webkit-scrollbar {
@@ -101,6 +131,11 @@ h2 {
   border-bottom: none;
 }
 
+.tournament div {
+  justify-content: center;
+  align-items: center;
+}
+
 .gameTitle,
 .tournamentName,
 .startDate,
@@ -109,8 +144,52 @@ h2 {
 }
 
 .tournamentName {
-  color: #000;
+  color: #fff;
   text-decoration: none;
+  grid-column: 1/11;
+  grid-row: 3/4;
+}
+
+.startDate {
+  grid-column: 1/11;
+  grid-row: 2/3;
+}
+
+.gameTitle {
+  width: 100%;
+  grid-column: 1/8;
+  grid-row: 1/2;
+  font-size: 25px;
+}
+
+.gameTitle h2 {
+  padding-left: 10px;
+  width: 100%;
+  text-align: left;
+}
+
+.tournament i {
+  width: 70%;
+  text-align: right;
+  grid-column: 8/11;
+  grid-row: 1/2;
+  color: rgb(209, 181, 22);
+  text-shadow: 1px 0 #000, 0 1px #000, -1px 0 #000, 0 -1px #000, 0 0 10px rgb(224, 234, 238);
+  font-size: 25px;
+}
+
+.numTeams {
+  grid-column: 1/11;
+  grid-row: 4/5;
+}
+
+.owner {
+  grid-column: 1/11;
+  grid-row: 5/6;
+}
+
+.startDate, .tournamentName, .numTeams, .owner {
+  padding-left: 10px;
 }
 
 .tournamentName,
@@ -118,7 +197,6 @@ h2 {
   display: flex;
   justify-content: left;
   align-items: center;
-  padding-left: 20px;
 }
 
 .startDate,
@@ -131,10 +209,9 @@ h2 {
 #options {
   width: 80%;
   height: 50px;
-  display: grid;
-  grid-template-columns: 40% 20% 40%;
   margin: auto;
   margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 #options a {
@@ -147,16 +224,14 @@ h2 {
   justify-content: center;
   align-items: center;
   border: 2px solid #000;
+  background-color: rgba(0, 0, 0, 0.70) !important;
   border-radius: 5px;
   height: 100%;
 }
 
-#create {
-  grid-column: 1/2;
-}
-
-#join {
-  grid-column: 3/4;
+#options div:hover {
+  box-shadow: 0 0 10px rgb(136, 187, 255);
+  cursor: pointer;
 }
 
 #foot {
