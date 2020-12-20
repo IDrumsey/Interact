@@ -9,7 +9,7 @@ if(isset($_POST['gameOptions'])){
     foreach($_POST['gameOptions'] as $gameOption){
         array_push($gameTitles, $gameOption);
     }
-    $sql = "SELECT t1.tournament_Name, t1.start_date, t1.totalPrize, t2.title FROM tournament t1 INNER JOIN game t2 ON t2.game_ID = t1.gameID WHERE t1.start_date > DATE(NOW()) AND t2.title = ?;";
+    $sql = "SELECT t1.tournament_Name, t1.start_date, t1.num_players_registered AS registered, t1.owner, t1.totalPrize, t2.title FROM tournament t1 INNER JOIN game t2 ON t2.game_ID = t1.gameID WHERE t1.start_date > DATE(NOW()) AND t2.title = ?;";
     $stmt = mysqli_stmt_init($conn);
     if(mysqli_stmt_prepare($stmt, $sql) == false){
         echo "Error in preparing sql statement";

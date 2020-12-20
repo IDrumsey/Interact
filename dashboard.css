@@ -128,7 +128,7 @@ h3 {
 
 .upcomingGame {
   display: grid;
-  grid-template-columns: 20% 70% 10%;
+  grid-template-columns: 30% 60% 10%;
   grid-template-rows: repeat(1fr, 3);
   text-align: center;
   border-bottom: 2px solid #000;
@@ -140,9 +140,10 @@ h3 {
   grid-row: 1/2;
 }
 
-.teams {
-  text-align: left;
-  border-right: 2px solid #000;
+.time h3 {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .teamA {
@@ -286,11 +287,17 @@ h3 {
 }
 
 .date {
-  border-right: 2px solid #000;
+  border-left: 2px solid #000;
+}
+
+.date h3 {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 #history .time {
-  border-right: none;
+  border-right: 2px solid #000;
 }
 
 /*

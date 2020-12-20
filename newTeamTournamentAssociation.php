@@ -70,6 +70,6 @@ else{
 }
 mysqli_stmt_close($stmt);
 //Redirect
-header("Location: /Interact/bracketVisual/bracket.php?tournamentName=" . $tournamentName);
+header("Location: /Interact/newPlayerTournamentAssociation.php?tournamentName=" . $tournamentName . "&team=" . $teamName);
 mysqli_close($conn);
 ?>

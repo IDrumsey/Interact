@@ -55,8 +55,8 @@ if(session_id() == ""){
               echo "<a class='tournament' href='./bracketVisual/bracket.php?tournamentName=" . $tournaments[$i]['tournament_Name'] . "'>
               <i class='fa fa-trophy'></i><div class='gameTitle'><h2>" . $tournaments[$i]['title'] . "</h2></div><div class='startDate'><h2>" . $tournaments[$i]['start_date'] . "</h2></div>
               <div class='tournamentName'><h2>" . $tournaments[$i]['tournament_Name'] . "</h2></div>
-              <div class='numTeams'><h2>Registered Teams : 2</h2></div>
-              <div class='owner'><h2>Created By : Player Name</h2></div>
+              <div class='numTeams'><h2>Registered Teams : " . $tournaments[$i]['registered'] . "</h2></div>
+              <div class='owner'><h2>Created By : " . $tournaments[$i]['owner'] . "</h2></div>
               </a>";
             }
             ?>
