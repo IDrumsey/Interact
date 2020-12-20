@@ -14,6 +14,7 @@ if(isset($_GET['team'])){
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
+    <script src="https://kit.fontawesome.com/62aaa623b9.js" crossorigin="anonymous"></script>
     <title><?php echo $_GET['team']; ?></title>
   </head>
   <body>
@@ -47,13 +48,27 @@ if(isset($_GET['team'])){
         <div id="history">
           <h2>History</h2>
           <div id="historyList">
-            <div class="historyItem">
-              <div class="matchDate"><h2>Date</h2></div>
-              <div class="matchTime"><h2>Time</h2></div>
-              <div class="team1"><h2>Team1 Name</h2></div>
-              <div class="separator"><h2>vs</h2></div>
-              <div class="team2"><h2>Team2 Name</h2></div>
-            </div>
+            <?php
+              for($i = 0; $i < sizeof($history); $i++){
+                //Get winning team
+                $winningTeam = ($history[$i]['teamA Name'] == $history[$i]['match_winner']) ? 1 : 2;
+                echo "<div class='historyItem'>
+                <div class='matchDate'><h2>" . $history[$i]['start_date'] . "</h2></div>
+                <div class='matchTime'><h2>" . $history[$i]['start_time'] . "</h2></div>
+                <div class='team1'>";
+                if($winningTeam == 1){
+                  echo "<i class='fas fa-crown'></i>";
+                }
+                echo "<h2>" . $history[$i]['teamA Name'] . "</h2></div>
+                <div class='separator'><h2>vs</h2></div>
+                <div class='team2'>";
+                if($winningTeam == 2){
+                  echo "<i class='fas fa-crown'></i>";
+                }
+                echo "<h2>" . $history[$i]['teamB Name'] . "</h2></div>
+              </div>";
+              }
+              ?>
           </div>
         </div>
         <div id="options">

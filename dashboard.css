@@ -112,7 +112,7 @@ h3 {
 }
 
 .list > div {
-  height: 50px;
+  height: auto;
   align-items: center;
   transition: background-color 100ms;
 }
@@ -129,6 +129,7 @@ h3 {
 .upcomingGame {
   display: grid;
   grid-template-columns: 20% 70% 10%;
+  grid-template-rows: repeat(1fr, 3);
   text-align: center;
   border-bottom: 2px solid #000;
 }
@@ -136,21 +137,27 @@ h3 {
 .time {
   border-right: 2px solid #000;
   text-align: center;
+  grid-row: 1/2;
 }
 
 .teams {
   text-align: left;
-  display: grid;
-  grid-template-columns: 45% 10% 45%;
   border-right: 2px solid #000;
 }
 
 .teamA {
-  text-align: right;
+  text-align: center;
+  grid-row: 1/2;
 }
 
 .separator {
   text-align: center;
+  grid-row: 2/3;
+}
+
+.teamB {
+  text-align: center;
+  grid-row: 3/4;
 }
 
 .more {

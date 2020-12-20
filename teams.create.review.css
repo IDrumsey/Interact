@@ -16,7 +16,7 @@ h2 {
   position: relative;
   overflow-y: scroll;
   padding-bottom: 40px;
-  color: #000;
+  color: #fff;
 }
 
 #body::-webkit-scrollbar {
@@ -45,10 +45,13 @@ h2 {
 }
 
 #memberList {
-  border: 2px solid #000;
+  background-color: rgba(0, 0, 0, 0.80) !important;
+  border: 2px solid #fff;
   border-radius: 5px;
   overflow-y: scroll;
-  height: 200px;
+  height: auto;
+  min-height: 50px;
+  max-height: 200px;
   box-shadow: 2px 2px 3px #000;
   overflow-x: scroll;
 }
@@ -59,10 +62,26 @@ h2 {
 
 .teamMember {
   width: 150%;
-  height: 40px;
+  height: 50px;
   display: grid;
   grid-template-columns: 20% 50% 30%;
-  border-bottom: 2px solid #000;
+  position: relative;
+}
+
+.teamMember:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 90%;
+  height: 1px;
+  border-color: #fff;
+  box-shadow: 0 1px 2px #fff;
+}
+
+.teamMember:last-child {
+  border-bottom: none;
 }
 
 .playerLogoWrapper {
@@ -72,7 +91,6 @@ h2 {
 }
 
 .playerLogo {
-  border: 2px solid #000;
   width: 25px;
   height: 25px;
   border-radius: 100%;
@@ -86,7 +104,7 @@ h2 {
 }
 
 .teamMember a {
-  color: #000;
+  color: #fff;
   text-decoration: none;
   display: flex;
   justify-content: left;
@@ -111,7 +129,11 @@ h2 {
   border-radius: 5px;
   overflow-y: scroll;
   height: auto;
+  min-height: 50px;
   max-height: 200px;
+  background-color: rgba(0, 0, 0, 0.80) !important;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 #historyList::-webkit-scrollbar {
@@ -119,15 +141,30 @@ h2 {
 }
 
 .historyItem {
-  width: 150%;
-  height: 40px;
+  width: 100%;
+  height: auto;
   display: grid;
-  grid-template-columns: 15% 15% 30% 10% 30%;
-  border-bottom: 2px solid #000;
+  grid-template-columns: repeat(1fr, 10);
+  grid-template-rows: repeat(1fr, 4);
+  row-gap: 5px;
+  position: relative;
+  padding: 10px 0;
 }
 
-.historyItem:last-child {
-  border-bottom: none;
+.historyItem:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 90%;
+  height: 1px;
+  border-color: #fff;
+  box-shadow: 0 1px 2px #fff;
+}
+
+.historyItem div {
+  width: 100%;
 }
 
 .matchDate,
@@ -141,32 +178,67 @@ h2 {
 .matchDate,
 .matchTime {
   overflow-x: hidden;
+  grid-row: 1/2;
+}
+
+.matchDate {
+  grid-column: 1/6;
+  text-align: left;
+}
+
+.matchDate h2, .matchTime h2 {
+  width: 100%;
+}
+
+.matchDate h2 {
+  margin-left: 10px;
+}
+
+.matchTime h2 {
+  margin-right: 10px;
+}
+
+.matchTime {
+  grid-column: 6/11;
+  text-align: right;
 }
 
 .team1 {
   display: flex;
-  justify-content: right;
+  justify-content: center;
   align-items: center;
   overflow-x: hidden;
+  grid-row: 2/3;
+  grid-column: 1/11;
+}
+
+.team1 i, .team2 i {
+  margin-right: 10px;
+  font-size: 15px;
+  color: rgb(212, 166, 14);
+  text-align: center;
 }
 
 .team1 h2 {
-  text-align: right;
-  width: 100%;
-  margin-right: 10px;
+  text-align: center;
+}
+
+.separator {
+  grid-row: 3/4;
+  grid-column: 1/11;
 }
 
 .team2 {
   display: flex;
-  justify-content: left;
+  justify-content: center;
   align-items: center;
   overflow-x: hidden;
+  grid-row: 4/5;
+  grid-column: 1/11;
 }
 
 .team2 h2 {
-  text-align: left;
-  width: 100%;
-  margin-left: 10px;
+  text-align: center;
 }
 
 #options {
@@ -174,7 +246,7 @@ h2 {
   height: 50px;
   margin: auto;
   display: grid;
-  grid-template-columns: 40% 20% 40%;
+  grid-template-columns: 45% 10% 45%;
   font-size: 20px;
   border-radius: 2px;
 }
@@ -190,13 +262,21 @@ h2 {
 #invPlayer,
 #editTeamBtn,
 #finishBtn {
-  color: #000;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.80) !important;
   text-decoration: none;
   border: 2px solid #000;
   border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
+}
+
+#invPlayer:hover,
+#editTeamBtn:hover,
+#finishBtn:hover {
+  box-shadow: 0 0 10px rgb(61, 235, 226);
 }
 
 #finishBtn {

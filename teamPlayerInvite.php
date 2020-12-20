@@ -2,7 +2,7 @@
 session_start();
 include_once "./dbConn.php";
 if(isset($_GET['team']) && isset($_GET['player'])){
-    $sql = "INSERT INTO invitations (invitor, invitations.type, invited, team_ID, invitations.style) VALUES ((SELECT id FROM users WHERE username = ?), 'Team', (SELECT id FROM users WHERE username = ?), (SELECT team_ID FROM teamdetails WHERE teamdetails.team_Name = ?), 'Team');";
+    $sql = "INSERT INTO invitations (invitor, invitations.type, invited, team_ID) VALUES ((SELECT id FROM users WHERE username = ?), 'Team', (SELECT id FROM users WHERE username = ?), (SELECT team_ID FROM teamdetails WHERE teamdetails.team_Name = ?));";
     $stmt = mysqli_stmt_init($conn);
     if(mysqli_stmt_prepare($stmt, $sql) == false){
         echo "Error in preparing sql statement";

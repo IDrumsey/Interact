@@ -3,6 +3,10 @@ h4 {
   margin: 0;
 }
 
+html::-webkit-scrollbar, #body::-webkit-scrollbar {
+  display: none;
+}
+
 #head {
   display: flex;
   justify-content: center;
@@ -17,7 +21,8 @@ h4 {
 
 #body {
   overflow-y: scroll;
-  color: #000;
+  color: #fff;
+  position: relative;
 }
 
 #teams {
@@ -34,10 +39,12 @@ h4 {
 
 #teamList {
   border: 2px solid #000;
-  height: 175px;
+  height: auto;
+  min-height: 50px;
+  max-height: 200px;
   border-radius: 5px;
   overflow-x: scroll;
-  background-color: #fff;
+  background-color: rgba(0, 0, 0, 0.70) !important;
 }
 
 #teamList::-webkit-scrollbar {
@@ -45,7 +52,7 @@ h4 {
 }
 
 .team {
-  height: 35px;
+  height: 50px;
   width: 150%;
   display: grid;
   grid-template-columns: 10% 40% 20% 20% 10%;
@@ -62,23 +69,22 @@ h4 {
 .teamLogo {
   width: 25px;
   height: 25px;
-  border: 2px solid #000;
+  box-shadow: 0 0 5px rgb(144, 250, 250);
   border-radius: 100%;
 }
 
 .team a {
-  color: #000;
+  color: #fff;
   text-decoration: none;
   display: flex;
   justify-content: left;
   align-items: center;
   padding-left: 10px;
-  transition: background-color 500ms, color 500ms;
+  transition: text-shadow 50ms linear;
 }
 
 .team a:hover {
-  background-color: #000;
-  color: #fff;
+  text-shadow: 0 0 5px rgb(144, 250, 250);
 }
 
 .teamLogoWrapper,
@@ -97,22 +103,24 @@ h4 {
 #createTeam {
   border: 2px solid #000;
   border-radius: 2px;
-  width: 50%;
+  width: 80%;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: auto;
   margin-top: 50px;
+  bottom: 50px;
   height: 50px;
-  box-shadow: 2px 2px #0d0d0d;
   cursor: pointer;
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.70) !important;
 }
 
 #createTeam:hover {
-  width: 52%;
-  height: 52px;
-  margin-top: 49px;
-  box-shadow: 4px 4px #0d0d0d;
+  box-shadow: 0 0 5px rgb(144, 250, 250);
 }
 
 #createTeam a {
