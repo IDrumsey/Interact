@@ -13,6 +13,7 @@ $docPath = $_SERVER['DOCUMENT_ROOT'];
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <link rel="stylesheet" href="./bracket.css" />
+    <script src="https://kit.fontawesome.com/62aaa623b9.js" crossorigin="anonymous"></script>
     <title>
       <?php
       echo $_GET['tournamentName'];
@@ -44,11 +45,11 @@ $docPath = $_SERVER['DOCUMENT_ROOT'];
                 $currMatch = $rounds[$i][$j];
                 $statusColor;
                 $winningTeam = "NA";
-                if($currMatch['complete_status'] == 0){
-                  $statusColor = "000";
+                if($currMatch['complete_status'] == "incomplete"){
+                  $statusColor = "ff0000";
                 }
-                else if($currMatch['complete_status'] == 1){
-                  $statusColor = "014a36";
+                else if($currMatch['complete_status'] == "complete"){
+                  $statusColor = "0fbd5a";
                   if($currMatch['match_winner'] == "team1"){
                     $winningTeam = $currMatch['team1Name'];
                   }
@@ -56,9 +57,9 @@ $docPath = $_SERVER['DOCUMENT_ROOT'];
                     $winningTeam = $currMatch['team2Name'];
                   }
                 }
-                echo "<div class='match' onclick='displayDetails(this)'><div class='matchDetails' style='background-color: #" . $statusColor . ";'><div class='matchDetailsA'><div class='matchDate'><h2>" . $currMatch['start_date'] . "</h2></div><div class='matchTime'><h2>" . $currMatch['start_time'] . ' - ' . $currMatch['end_time'] . "</h2></div><div class='closeDetails'><i class='fa fa-times' onclick='closeDetails(this, event)'></i></div></div><div class='matchDetailsB'><div class='matchDetailsBTitle'><h2>Champion</h2></div><div class='matchDetailsBTeam'><h2>" . $winningTeam . "</h2></div></div></div><div class='player playerA'><h2 class='playerName'>" . $rounds[$i][$j]['team1Name'] . "</h2></div><div class='player playerB'><h2 class='playerName'>" . $rounds[$i][$j]['team2Name'] . "</h2></div></div>";
+                echo "<div class='matchWrapper'><div class='match' onclick='displayDetails(this)'><div class='matchDetails' style='box-shadow: 0px 0px 10px #" . $statusColor . ";'><div class='matchDetailsA'><div class='matchDate'><h2>" . $currMatch['start_date'] . "</h2></div><div class='matchTime'><h2>" . $currMatch['start_time'] . "</h2><h2>-</h2><h2>" . $currMatch['end_time'] . "</h2></div><div class='closeDetails'><i class='fa fa-times closeDets' onclick='closeDetails(this, event)'></i></div></div><div class='matchDetailsB'><div class='matchDetailsBTitle'><h2><i class='fas fa-crown'></i></h2></div><div class='matchDetailsBTeam'><h2>" . $winningTeam . "</h2></div></div></div><div class='player playerA'><h2 class='playerName'>" . $rounds[$i][$j]['team1Name'] . "</h2></div><div class='player playerB'><h2 class='playerName'>" . $rounds[$i][$j]['team2Name'] . "</h2></div></div><div class='matchOptions'><i class='fa fa-ellipsis-h opSel'></i></div>";
               }
-              echo "</div></div>";
+              echo "</div></div></div>";
             }
           }
       echo "</div>";
