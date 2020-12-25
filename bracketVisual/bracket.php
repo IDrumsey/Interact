@@ -36,6 +36,8 @@ $docPath = $_SERVER['DOCUMENT_ROOT'];
       else{
         echo "<div class='body1' style='display: block;'>";
       }
+      ?>
+      <?php
           if(sizeof($rounds) > 0){
             for($i = 0; $i < sizeof($rounds); $i++){
               echo "<div class='round'>
@@ -57,7 +59,17 @@ $docPath = $_SERVER['DOCUMENT_ROOT'];
                     $winningTeam = $currMatch['team2Name'];
                   }
                 }
-                echo "<div class='matchWrapper'><div class='match' onclick='displayDetails(this)'><div class='matchDetails' style='box-shadow: 0px 0px 10px #" . $statusColor . ";'><div class='matchDetailsA'><div class='matchDate'><h2>" . $currMatch['start_date'] . "</h2></div><div class='matchTime'><h2>" . $currMatch['start_time'] . "</h2><h2>-</h2><h2>" . $currMatch['end_time'] . "</h2></div><div class='closeDetails'><i class='fa fa-times closeDets' onclick='closeDetails(this, event)'></i></div></div><div class='matchDetailsB'><div class='matchDetailsBTitle'><h2><i class='fas fa-crown'></i></h2></div><div class='matchDetailsBTeam'><h2>" . $winningTeam . "</h2></div></div></div><div class='player playerA'><h2 class='playerName'>" . $rounds[$i][$j]['team1Name'] . "</h2></div><div class='player playerB'><h2 class='playerName'>" . $rounds[$i][$j]['team2Name'] . "</h2></div></div><div class='matchOptions'><i class='fa fa-ellipsis-h opSel'></i></div>";
+                echo "<div class='matchWrapper'><div class='match' onclick='displayDetails(this)'><div class='matchDetails' style='box-shadow: 0px 0px 10px #" . $statusColor . ";'><div class='matchDetailsA'><div class='matchDate'><h2>" . $currMatch['start_date'] . "</h2></div><div class='matchTime'><h2>" . $currMatch['start_time'] . "</h2><h2>-</h2><h2>" . $currMatch['end_time'] . "</h2></div><div class='closeDetails'><i class='fa fa-times closeDets' onclick='closeDetails(this, event)'></i></div></div><div class='matchDetailsB'><div class='matchDetailsBTitle'><h2><i class='fas fa-crown'></i></h2></div><div class='matchDetailsBTeam'><h2>" . $winningTeam . "</h2></div></div></div><div class='player playerA'><h2 class='playerName'>" . $rounds[$i][$j]['team1Name'] . "</h2></div><div class='player playerB'><h2 class='playerName'>" . $rounds[$i][$j]['team2Name'] . "</h2></div>
+              </div><div class='matchOptions'><i class='fa fa-ellipsis-h opSel'></i></div>
+              <div class='selectWinner'>
+                  <h2 class='selectWinnerTitle'>Select Match Winner</h2>
+                  <p class='selectWinnerDesc'>One representative from each team will submit the winner of this match</p>
+                  <div class='winningTeam'>
+                    <div class='teamA winnerOption'><i class='fas fa-crown'></i><h2>" . $rounds[$i][$j]['team1Name'] . "</h2></div>
+                    <div class='teamB winnerOption'><h2>" . $rounds[$i][$j]['team2Name'] . "</h2><i class='fas fa-crown'></i></div>
+                  </div>
+                  <div class='subWinner'><h2>Submit</h2></div>
+                </div>";
               }
               echo "</div></div></div>";
             }
