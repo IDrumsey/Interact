@@ -59,4 +59,5 @@ $sql = "SELECT t1.status FROM tournament t1 WHERE t1.tournament_Name = ?";
             }
     }
 mysqli_close($conn);
+//echo('<pre>' . print_r($rounds) . "</pre>");
 ?>

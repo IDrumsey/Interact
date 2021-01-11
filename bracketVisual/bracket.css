@@ -13,7 +13,7 @@ h2 {
 #container {
   width: 100%;
   height: 100%;
-  background-image: url('../images/take3.jpg');
+  background-image: url("../images/take3.jpg");
   background-size: 100%;
 }
 
@@ -80,24 +80,47 @@ h2 {
 .matchWrapper {
   position: relative;
   margin-bottom: 10px;
-  border: 2px solid #fff;
+  transition: margin-top 200ms;
 }
 
 .match {
   height: 50px;
   position: relative;
-  background-color: rgba(0, 0, 0, 0.70) !important;
+  background-color: rgba(0, 0, 0, 0.7) !important;
   backdrop-filter: blur(5px);
   z-index: 3;
+  border-radius: 5px;
+  transition: border-radius 200ms;
 }
 
 .match:last-child {
   margin-bottom: 0px;
 }
 
-.match:not(.matchOptions):hover{
+.match:not(.matchOptions):hover {
   cursor: pointer;
-  box-shadow: 0px 0px 10px rgb(244, 159, 255);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.match:hover > .matchOptions {
+  z-index: 5;
+}
+
+.match:hover {
+  border-top: 2px solid #fff !important;
+  border-left: 2px solid #fff !important;
+  border-right: 2px solid #fff !important;
+}
+
+.match-bottom-border {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  right: -2px;
+  transition: width 200ms;
+  border-bottom: 2px solid #fff;
+  display: none;
 }
 
 .matchDetails {
@@ -111,7 +134,7 @@ h2 {
   left: -2px;
   position: absolute;
   display: none;
-  z-index: 3;
+  z-index: 5;
   color: #fff;
 }
 
@@ -136,7 +159,6 @@ h2 {
 }
 
 .matchDetailsA div {
-  
 }
 
 .matchDetailsA div h2 {
@@ -303,10 +325,9 @@ h2 {
   opacity: 0;
   position: absolute;
   top: 0;
-  left: -2px;
   width: 15%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.70) !important;
+  background-color: rgba(0, 0, 0, 0.7) !important;
   backdrop-filter: blur(5px);
   z-index: 2;
   border-bottom: 2px solid #fff;
@@ -359,8 +380,9 @@ h2 {
   box-shadow: 0 0 10px rgb(26, 129, 197);
   border-radius: 5px;
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.70) !important;
-  backdrop-filter: blur(5px);  z-index: 5;
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  backdrop-filter: blur(5px);
+  z-index: 5;
   left: 50%;
   transform: translateX(-50%);
   padding: 10px;
@@ -369,7 +391,8 @@ h2 {
   color: #fff;
 }
 
-.selectWinnerTitle, .selectWinnerDesc {
+.selectWinnerTitle,
+.selectWinnerDesc {
   margin: auto;
   text-align: center;
 }
@@ -419,7 +442,8 @@ h2 {
   text-align: center;
 }
 
-.winnerOption i, .winnerOption h2 {
+.winnerOption i,
+.winnerOption h2 {
   text-align: center;
   transition: color 150ms;
 }

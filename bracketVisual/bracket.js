@@ -25,7 +25,7 @@ function displaySection(){
 let optionSelect = document.getElementsByClassName('matchWrapper');
 for(let i = 0; i < optionSelect.length; i++){
     let tmpMatch = optionSelect[i].childNodes[0];
-    tmpMatch.addEventListener('mouseenter', toggleOptionsOn);
+    tmpMatch.addEventListener('mouseover', toggleOptionsOn);
     optionSelect[i].addEventListener('mouseleave', toggleOptionsOff);
 }
 
@@ -34,15 +34,30 @@ let currOpenListener;
 function toggleOptionsOn(){
     let optionTag = this.nextElementSibling;
     let optionOpener = optionTag.childNodes[0];
+    let matchHeight = this.clientHeight;
 
-    optionTag.style.top = "100%";
+    //lessen width of bottom border
+    this.children[0].style.display = "block";
+    this.children[0].style.width = "85%";
+
+    optionTag.style.top = matchHeight + 2 +  "px";
     optionTag.style.opacity = "1";
     optionOpener.addEventListener('click', openMenu);
+
+    //push all matches down
+    if(this.parentNode.nextSibling != null){
+        pushMatchDown(this.parentNode.nextSibling);
+    }
+}
+
+function pushMatchDown(match){
+    match.style.marginTop = '75px';
 }
 
 function openMenu(){
+    let parentWidth = this.parentNode.parentNode.offsetWidth;
     let optionOpener = this;
-    optionOpener.parentNode.style.width = "100%";
+    optionOpener.parentNode.style.width = parentWidth - 4 + "px";
     //add options
     if(optionOpener.parentNode.childNodes.length < 2){
         let optionsWrapper = document.createElement('div');
@@ -60,6 +75,9 @@ function openMenu(){
         setWinnerBtn.addEventListener('click', setWinner)
     }
     optionOpener.style.width = "15%";
+
+    //expand bottom border
+    this.parentNode.previousSibling.children[0].style.width = parentWidth + 'px';
 }
 
 function hoverIcon(icon){
@@ -93,10 +111,23 @@ function toggleOptionsOff(){
     optionTag.style.opacity = "0";
     optionOpener.style.width = "100%";
     optionTag.style.width = "15%";
+    optionTag.style.zIndex = 2;
+
+    //re-expand bottom border
+    this.children[0].children[0].style.display = "none";
+
     //remove menu
     if(optionTag.childNodes.length == 2){
         optionTag.removeChild(optionTag.childNodes[1]);
     }
+
+    if(this.nextSibling != null){
+        pushMatchUp(this.nextSibling);
+    }
+}
+
+function pushMatchUp(match){
+    match.style.marginTop = '0';
 }
 
 function setWinner(){
@@ -196,4 +227,24 @@ function submitMatchWinner(){
         call.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         call.send("tournament=" + tournament + "&round=" + roundNum + "&teamA=" + teamAName + "&teamB=" + teamBName + "&winningTeam=" + winningTeamName);
     }
+}
+
+let ops = Array.from(document.getElementsByClassName('matchOptions'));
+for(let op in ops){
+    ops[op].addEventListener('mouseover', () => {
+        //get match sibling
+        let match = ops[op].previousSibling;
+        match.style.borderTop = '2px solid #fff';
+        match.style.borderLeft = '2px solid #fff';
+        match.style.borderRight = '2px solid #fff';
+        
+
+        match.style.borderBottomLeftRadius = '0';
+        match.style.borderBottomRightRadius = '0';
+    });
+    ops[op].addEventListener('mouseout', () => {
+        //get match sibling
+        let match = ops[op].previousSibling;
+        match.style.border = 'none';
+    });
 }
