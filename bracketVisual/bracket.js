@@ -1,3 +1,5 @@
+const submissionAlertResponses = [{code: 'A', msg: "Waiting on a representative from the other team to verify the winner of this match..."}, {code: 'B', msg: "Your choice has been verified and has been recorded as the winner of this match..."}, {code: 'C', msg: 'Your choice doesn\'t match the choice of the other team... Would you like to reset all teams\' choices or change your choice?'}];
+
 function displayDetails(element) {
     let match = element;
     for(let i = 0; i < match.childNodes.length; i++){
@@ -136,10 +138,22 @@ function setWinner(){
     selectWinner.style.display = "block";
     //listen for click on team
         //get teams
-        let tA = selectWinner.childNodes[5].childNodes[1];
-        let tB = selectWinner.childNodes[5].childNodes[3];
+        let tA = selectWinner.childNodes[7].childNodes[1];
+        let tB = selectWinner.childNodes[7].childNodes[3];
         tA.addEventListener('click', setWinningTeam);
         tB.addEventListener('click', setWinningTeam);
+
+    //listen for close btn click
+    //get close btn
+    let close = selectWinner.childNodes[3];
+    //listen for click
+    close.addEventListener('click', ()=>{
+        //reset colors
+        tA.childNodes[0].style.color = "#fff";
+        tB.childNodes[1].style.color = "#fff";
+        //close menu
+        selectWinner.style.display = 'none';
+    })
 }
 
 function setWinningTeam(){
@@ -183,6 +197,8 @@ function setWinningTeam(){
 }
 
 function submitMatchWinner(){
+    //get select winner panel
+    let selectWinnerPanel = this.parentNode;
     //get winner team name
     let winner = this.parentNode.getElementsByClassName('winningTeam')[0].getElementsByClassName('winner')[0].innerText;
 
@@ -221,6 +237,38 @@ function submitMatchWinner(){
         call.onload = function(){
             //raw
             console.log("Response : ", this.responseText);
+            let code = getSubAlertCode(this.responseText);
+            //find assoc msg
+            let msg = "";
+            for(let i in submissionAlertResponses){
+                if(submissionAlertResponses[i].code == code){
+                    msg = submissionAlertResponses[i].msg;
+                    break;
+                }
+            }
+
+
+            //open alert menu
+            //create element
+            let subAlert = document.createElement('div');
+            subAlert.classList.add('submission-status-alert');
+            let subAlertMsg = document.createElement('h2');
+            subAlertMsg.classList.add('submission-status-alert-message');
+            subAlertMsg.innerText = msg;
+            subAlert.appendChild(subAlertMsg);
+
+            //add alert in middle of winner select panel
+            selectWinnerPanel.appendChild(subAlert);
+            //init handler for closing alert
+            let closeHandler = function(e) {
+                if(e.target.className != "submission-status-alert" && e.target.className !="submission-status-alert-message"){
+                    selectWinnerPanel.removeChild(subAlert);
+                    //remove event listener
+                    document.removeEventListener('click', closeHandler);
+                }
+            }
+            //listen for any click to close alert
+            let closeList = document.addEventListener('click', closeHandler);
         }
 
         call.open("POST", "setMatchWinner.php");
@@ -247,4 +295,8 @@ for(let op in ops){
         let match = ops[op].previousSibling;
         match.style.border = 'none';
     });
+}
+
+function getSubAlertCode(res){
+    return res[res.search("Code: ") + 6];
 }

@@ -210,8 +210,7 @@
 
     if($numSubs == 0){
         //insert sub
-        echo "no subs - inserting";
-        echo "asdf : " . $matchID . " " . $winningID;
+        echo "Code: A";
         addSub($conn, $matchID, $winningID, $userID);
     }
     else if($userSubTeamA > 0 && $userSubTeamB > 0){
@@ -230,18 +229,24 @@
             $same = false;
         }
         if($same){
-            //all submissions the same : Set winner
-            echo "inserting winner of match";
+            //all submissions the same : Set verified winner
+            echo "Code: B";
             addSub($conn, $matchID, $winningID, $userID);
+        }
+        else {
+            echo "Code: C";
+
+            //Notify not all winner submissions are the same
+            
+            //Give option to reset all submissions or change answer
         }
     }
     else{
-        //not enough subs : handle
+        echo "Code: A";
     }
 
     function addSub($conn, $matchID, $winnerID, $userID){
         $sql = "INSERT INTO matchwinner (match_ID, winner_ID, user_ID) VALUES (?,?,?)";
-        echo "test vals : " . $matchID, $winnerID;
         $stmt = mysqli_stmt_init($conn);
         if(mysqli_stmt_prepare($stmt, $sql) == false){
             echo "Error in preparing sql statement";
@@ -255,7 +260,29 @@
                     echo "Error in running query";
                 }
                 else{
-                    echo "Error inserting sub";
+                    echo "Done Inserting";
+                }
+            }
+        }
+        mysqli_stmt_close($stmt);
+    }
+
+    function addVerified($conn, $matchID, $winnerID){
+        $sql = "INSERT INTO verified_match_winners (match_ID, winning_team_ID) VALUES (?,?)";
+        $stmt = mysqli_stmt_init($conn);
+        if(mysqli_stmt_prepare($stmt, $sql) == false){
+            echo "Error in preparing sql statement";
+        }
+        else{
+            if(mysqli_stmt_bind_param($stmt, 'ii', $matchID, $winnerID) == false){
+                echo "Error in binding parameters";
+            }
+            else{
+                if(mysqli_execute($stmt) == false){
+                    echo "Error in running query";
+                }
+                else{
+                    echo "Added Verified User";
                 }
             }
         }

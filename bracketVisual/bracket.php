@@ -41,7 +41,7 @@ $docPath = $_SERVER['DOCUMENT_ROOT'];
           if(sizeof($rounds) > 0){
             for($i = 0; $i < sizeof($rounds); $i++){
               echo "<div class='round'>
-              <div class='roundNumber'><h2>Round " . ($i + 1) . "</h2></div>
+              <div class='roundNumber'><h2><a href='../match.html'>Round " . ($i + 1) . "</a></h2></div>
               <div class='matchList'>";
               for($j = 0; $j < sizeof($rounds[$i]); $j++){
                 $currMatch = $rounds[$i][$j];
@@ -63,6 +63,7 @@ $docPath = $_SERVER['DOCUMENT_ROOT'];
               </div><div class='matchOptions'><i class='fa fa-ellipsis-h opSel'></i></div>
               <div class='selectWinner'>
                   <h2 class='selectWinnerTitle'>Select Match Winner</h2>
+                  <i class='fa fa-times select-winner-close'></i>
                   <p class='selectWinnerDesc'>One representative from each team will submit the winner of this match</p>
                   <div class='winningTeam'>
                     <div class='teamA winnerOption'><i class='fas fa-crown'></i><h2>" . $rounds[$i][$j]['team1Name'] . "</h2></div>
