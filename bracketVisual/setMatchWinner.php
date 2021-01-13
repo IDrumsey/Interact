@@ -5,6 +5,11 @@
     if(session_id() == ""){
         session_start();
     }
+
+    //Check if user has authorization to submit winner
+    //get team user is associated with in the tournament
+
+
     //set winner and loser
     if($_POST['winningTeam'] == $_POST['teamA']){
         $winningTeam = $_POST['teamA'];
@@ -198,7 +203,6 @@
                         if($row['team_id'] == $teamBID){
                             $userSubTeamB++;
                         }
-
                     }
                 }
             }
@@ -279,10 +283,35 @@
             }
             else{
                 if(mysqli_execute($stmt) == false){
-                    echo "Error in running query";
+                    return null;
                 }
                 else{
                     echo "Added Verified User";
+                }
+            }
+        }
+        mysqli_stmt_close($stmt);
+    }
+
+    function getTournamentID($roundID, $conn){
+        $sql = "SELECT tournament_id FROM tournament_round WHERE round_id = ?";
+        $stmt = mysqli_stmt_init($conn);
+        if(mysqli_stmt_prepare($stmt, $sql) == false){
+            echo "Error in preparing sql statement";
+        }
+        else{
+            if(mysqli_stmt_bind_param($stmt, 'i', $roundID) == false){
+                echo "Error in binding parameters";
+            }
+            else{
+                if(mysqli_execute($stmt) == false){
+                    echo "Error in running query";
+                }
+                else{
+                    $result = mysqli_stmt_get_result($stmt);
+                    $numRows = mysqli_num_rows($result);
+                    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                    return $row['tournament_id'];
                 }
             }
         }
