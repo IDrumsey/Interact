@@ -73,19 +73,20 @@
 //Classes
 
 class Tournament {
-    private $name; 
-    private $total_prize;
-    private $game; 
-    private $bracket_style; 
-    private $start_date;
-    private $end_date; 
-    private $prize_distribution_method;
-    private $entry_fee_style;
-    private $status;
-    private $owner;
-    private $rounds = [];
-    private $players_registered = [];
-    private $teams_registered = [];
+    public $name; 
+    public $total_prize;
+    public $game; 
+    public $bracket_style; 
+    public $start_date;
+    public $end_date; 
+    public $prize_distribution_method;
+    public $entry_fee_style;
+    public $status;
+    public $owner;
+    public $grouping_style;
+    public $rounds = [];
+    public $registered_players = [];
+    public $registered_teams = [];
 
     function __construct(){
         
@@ -122,16 +123,19 @@ class Tournament {
     function set_tournament_owner($owner){
         $this->owner = $owner;
     }
+    function set_tournament_grouping_style($style){
+        $this->grouping_style = $style;
+    }
 
     //Adders
-    function add_tournament_team($team){
-        //array_push($this.teams_registered, $team);
-    }
     function add_tournament_round($round){
-        //array_push($this.rounds, $round);
+        array_push($this->rounds, $round);
     }
-    function add_tournament_player($player){
-        //array_push($this.players_registered, $player);
+    function add_tournament_registered_player($player_id){
+        array_push($this->registered_players, $player_id);
+    }
+    function add_tournament_registered_team($team_id){
+        array_push($this->registered_teams, $team_id);
     }
 
     //Getters
@@ -166,13 +170,16 @@ class Tournament {
         return $this->owner;
     }
     function get_tournament_teams(){
-        return $this->teams_registered;
+        return $this->registered_teams;
     }
     function get_tournament_rounds(){
         return $this->rounds;
     }
-    function get_tournament_players(){
-        return $this->players_registered;
+    function get_tournament_players_registered(){
+        return $this->registered_players;
+    }
+    function get_tournament_grouping_style(){
+        return $this->grouping_style;
     }
 
     //Other
@@ -193,9 +200,9 @@ class Tournament {
 
 
 class Round {
-    private $round_number;
-    private $status;
-    private $matches = [];
+    public $round_number;
+    public $status;
+    public $matches = [];
 
     function __construct(){
         
@@ -235,12 +242,12 @@ class Round {
 
 
 class Match {
-    private $team_a;
-    private $team_b;
-    private $start_date;
-    private $start_time;
-    private $end_time;
-    private $status;
+    public $team_a;
+    public $team_b;
+    public $start_date;
+    public $start_time;
+    public $end_time;
+    public $status;
 
     function __construct(){
         
@@ -302,11 +309,11 @@ class Match {
 
 
 class Team {
-    private $name;
-    private $wins;
-    private $losses;
-    private $logo_status;
-    private $users = [];
+    public $name;
+    public $wins;
+    public $losses;
+    public $logo_status;
+    public $users = [];
 
     function __construct(){
         
@@ -365,8 +372,8 @@ class Team {
 
 
 class User {
-    private $username;
-    private $logo_status;
+    public $username;
+    public $logo_status;
 
     function __construct(){
         
@@ -411,16 +418,42 @@ function get_tournament_info($tournament_name, $conn){
 
     $tournament_info = query_tournament($tournament_name, $conn);
 
-    //set obj props
-    print_r($tournament_info);
-    $tournament->set_tournament_name($tournament_name);
-    $tournament->set_tournament_total_prize($prize);
-    $tournament->set_tournament_start_date($tournament_info['start_date']);
-    $tournament->set_tournament_name($tournament_name);
-    $tournament->set_tournament_name($tournament_name);
-    $tournament->set_tournament_name($tournament_name);
+    $tournament_id = $tournament_info['tournament_ID'];
 
-    return $tournament;
+    //Get tournament rounds
+    $tournament_rounds = query_tournament_rounds($tournament_id, $conn);
+
+    for($i = 0; $i < sizeof($tournament_rounds); $i++){
+        $tournament->add_tournament_round(get_round_info($tournament_rounds[$i], $conn));
+    }
+
+    //Get players registered
+    $registered_players = query_tournament_registered_players($tournament_id, $conn);
+    $registered_teams = query_tournament_registered_teams($tournament_id, $conn);
+
+    for($i = 0; $i < sizeof($registered_players); $i++){
+        $tournament->add_tournament_registered_player($registered_players[$i]);
+    }
+
+    for($i = 0; $i < sizeof($registered_teams); $i++){
+        $tournament->add_tournament_registered_team($registered_teams[$i]);
+    }
+
+    //set obj props
+    $tournament->set_tournament_name($tournament_name);
+    $tournament->set_tournament_total_prize($tournament_info['prize']);
+    $tournament->set_tournament_start_date($tournament_info['start_date']);
+    $tournament->set_tournament_end_date($tournament_info['end_date']);
+    $tournament->set_tournament_status($tournament_info['status']);
+    $tournament->set_tournament_grouping_style($tournament_info['grouping_style']);
+    $tournament->set_tournament_entry_fee_style($tournament_info['join_Prize_Type']);
+    $tournament->set_tournament_owner($tournament_info['owner']);
+    $tournament->set_tournament_prize_distribution_method($tournament_info['method_name']);
+    $tournament->set_tournament_bracket_style($tournament_info['bracket_name']);
+    $tournament->set_tournament_game($tournament_info['title']);
+
+
+    return json_encode($tournament);
 }
 
 
@@ -444,7 +477,7 @@ function get_round_info($round_id, $conn){
     $round->set_round_number($round_info['round_number']);
     $round->set_round_status($round_info['status']);
 
-    return $round;
+    return json_encode($round);
 }
 
 
@@ -469,7 +502,7 @@ function get_user_info($user_id, $conn){
     $user->set_user_username($user_username);
     $user->set_user_logo_status($user_logo_status);
 
-    return $user;
+    return json_encode($user);
 }
 
 
@@ -503,7 +536,7 @@ function get_team_info($team_id, $conn){
     $team->set_team_losses($team_losses);
     $team->set_team_logo_status($team_logo_status);
 
-    return $team;
+    return json_encode($team);
 }
 
 
@@ -529,7 +562,7 @@ function get_match_info($match_id, $conn){
     $match->set_match_team_a($teamA);
     $match->set_match_team_b($teamB);
 
-    return $match;
+    return json_encode($match);
 }
 
 
@@ -729,7 +762,7 @@ mysqli_close($conn);
 }
 
 function query_tournament_rounds($tournament_id, $conn){
-    //Gets match id's for specified round
+    //Gets round id's for specified tournament
     $tournament_rounds = [];
     $sql = "SELECT round_id FROM tournament_round WHERE tournament_id = ?";
     $stmt = mysqli_stmt_init($conn);
@@ -756,6 +789,72 @@ function query_tournament_rounds($tournament_id, $conn){
 mysqli_close($conn);
 }
 
+function query_tournament_registered_teams($tournament_id, $conn){
+    //Gets registered teams for specified tournament
+    $registered_teams = [];
+    $sql = "SELECT team_id FROM tournament_team_association WHERE tournament_id = ?";
+    $stmt = mysqli_stmt_init($conn);
+    if(mysqli_stmt_prepare($stmt, $sql) == false){
+        echo "Error in preparing sql statement";
+    }
+    else{
+        if(mysqli_stmt_bind_param($stmt, 'i', $tournament_id) == false){
+            echo "Error in binding parameters";
+        }
+        else{
+            if(mysqli_execute($stmt) == false){
+                echo "Error in running query";
+            }
+            else{
+                $result = mysqli_stmt_get_result($stmt);
+                while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+                    array_push($registered_teams, $row['team_id']);
+                }
+                return $registered_teams;
+            }
+        }
+    }
+    mysqli_close($conn);
+}
+
+function query_tournament_registered_players($tournament_id, $conn){
+    //Gets registered teams for specified tournament
+    $registered_players = [];
+    $sql = "SELECT user_id FROM tournament_player_association WHERE tournament_id = ?";
+    $stmt = mysqli_stmt_init($conn);
+    if(mysqli_stmt_prepare($stmt, $sql) == false){
+        echo "Error in preparing sql statement";
+    }
+    else{
+        if(mysqli_stmt_bind_param($stmt, 'i', $tournament_id) == false){
+            echo "Error in binding parameters";
+        }
+        else{
+            if(mysqli_execute($stmt) == false){
+                echo "Error in running query";
+            }
+            else{
+                $result = mysqli_stmt_get_result($stmt);
+                while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+                    array_push($registered_players, $row['user_id']);
+                }
+                return $registered_players;
+            }
+        }
+    }
+    mysqli_close($conn);
+}
+
+function encode_obj_JSON($obj){
+    return json_encode($obj);
+}
+
+
+
+
+
+
+
 
 
 
@@ -764,9 +863,3 @@ mysqli_close($conn);
 if(!isset($conn)){
     include_once "dbConn.php";
 }
-
-
-//Test
-
-
-$tourn = get_tournament_info("test tournament 1", $conn);
