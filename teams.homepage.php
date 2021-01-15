@@ -1,5 +1,17 @@
 <?php
-include_once "./getUserTeamInfo.php";
+//include_once "./getUserTeamInfo.php";
+
+//new php
+include_once 'main.php';
+
+//get team players
+$player_teams = query_player_teams(query_user_id($_SESSION['user'], $conn), $conn);
+$teams = [];
+//get all team info
+for($i = 0; $i < sizeof($player_teams); $i++){
+  array_push($teams, get_team_info($player_teams[$i], $conn));
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,6 +82,7 @@ include_once "./getUserTeamInfo.php";
     </div>
   </body>
   <script src="/Interact/base.js"></script>
+  <script src="/Interact/main.js"></script>
   <script type="text/javascript">
   var primaryColor = <?php echo json_encode($_SESSION['primaryColor']); ?>;
   var secondaryColor = <?php echo json_encode($_SESSION['secondaryColor']); ?>;

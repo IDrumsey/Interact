@@ -2,6 +2,9 @@
 $docPath = $_SERVER['DOCUMENT_ROOT'];
 include_once $docPath . "/Interact/getUserProfile.php";
 include_once $docPath . "/Interact/getColorPreferences.php";
+
+//new php style
+include_once 'main.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

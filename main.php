@@ -69,6 +69,18 @@
 */
 
 
+//include connection
+
+if(!isset($conn)){
+    include_once "dbConn.php";
+}
+
+
+//start user session
+if(session_id() == ""){
+    session_start();
+}
+
 
 //Classes
 
@@ -453,7 +465,7 @@ function get_tournament_info($tournament_name, $conn){
     $tournament->set_tournament_game($tournament_info['title']);
 
 
-    return json_encode($tournament);
+    return $tournament;
 }
 
 
@@ -477,7 +489,7 @@ function get_round_info($round_id, $conn){
     $round->set_round_number($round_info['round_number']);
     $round->set_round_status($round_info['status']);
 
-    return json_encode($round);
+    return $round;
 }
 
 
@@ -502,7 +514,7 @@ function get_user_info($user_id, $conn){
     $user->set_user_username($user_username);
     $user->set_user_logo_status($user_logo_status);
 
-    return json_encode($user);
+    return $user;
 }
 
 
@@ -513,7 +525,7 @@ function get_team_info($team_id, $conn){
     //run necessary queries
 
     //get general team info
-    $team_info = query_team(41, $conn);
+    $team_info = query_team($team_id, $conn);
 
     $team_name = $team_info['team_Name'];
     $team_wins = $team_info['numWins'];
@@ -536,7 +548,7 @@ function get_team_info($team_id, $conn){
     $team->set_team_losses($team_losses);
     $team->set_team_logo_status($team_logo_status);
 
-    return json_encode($team);
+    return $team;
 }
 
 
@@ -562,7 +574,7 @@ function get_match_info($match_id, $conn){
     $match->set_match_team_a($teamA);
     $match->set_match_team_b($teamB);
 
-    return json_encode($match);
+    return $match;
 }
 
 
@@ -647,6 +659,59 @@ function query_team_players($team_id, $conn){
                     array_push($team_players, $row['userID']);
                 }
                 return $team_players;
+            }
+        }
+    }
+mysqli_close($conn);
+}
+
+function query_player_teams($player_id, $conn){
+    //Gets all id's of teams of player specified
+    $player_teams = [];
+    $sql = "SELECT teamID FROM teamassociations WHERE userID = ?";
+    $stmt = mysqli_stmt_init($conn);
+    if(mysqli_stmt_prepare($stmt, $sql) == false){
+        echo "Error in preparing sql statement";
+    }
+    else{
+        if(mysqli_stmt_bind_param($stmt, 'i', $player_id) == false){
+            echo "Error in binding parameters";
+        }
+        else{
+            if(mysqli_execute($stmt) == false){
+                echo "Error in running query";
+            }
+            else{
+                $result = mysqli_stmt_get_result($stmt);
+                while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+                    array_push($player_teams, $row['teamID']);
+                }
+                return $player_teams;
+            }
+        }
+    }
+mysqli_close($conn);
+}
+
+function query_user_id($username, $conn){
+    //Gets user id given username
+    $player_teams = [];
+    $sql = "SELECT id FROM users WHERE username = ?";
+    $stmt = mysqli_stmt_init($conn);
+    if(mysqli_stmt_prepare($stmt, $sql) == false){
+        echo "Error in preparing sql statement";
+    }
+    else{
+        if(mysqli_stmt_bind_param($stmt, 's', $username) == false){
+            echo "Error in binding parameters";
+        }
+        else{
+            if(mysqli_execute($stmt) == false){
+                echo "Error in running query";
+            }
+            else{
+                $result = mysqli_stmt_get_result($stmt);
+                return(mysqli_fetch_array($result, MYSQLI_ASSOC)['id']);
             }
         }
     }
@@ -845,21 +910,4 @@ function query_tournament_registered_players($tournament_id, $conn){
     mysqli_close($conn);
 }
 
-function encode_obj_JSON($obj){
-    return json_encode($obj);
-}
-
-
-
-
-
-
-
-
-
-
-//include connection
-
-if(!isset($conn)){
-    include_once "dbConn.php";
-}
+//Tests
