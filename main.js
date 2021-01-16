@@ -17,7 +17,6 @@
 
     //Get data and integrate into the frontend
     function init_teams_homepage_php(){
-        console.log("initializing teams.homepage");
 
         //Get team info for this user
         let get_teams_req = new_req();
@@ -25,7 +24,6 @@
         let integrate_teams = function(data) {
             //parse data
             let teams = JSON.parse(data);
-            console.log(teams);
 
             //Get team list element
             let team_list = document.getElementById('teamList');
@@ -38,11 +36,10 @@
                 team.classList.add('team');
                 let team_logo_wrapper = document.createElement('div');
                 team_logo_wrapper.classList.add('teamLogoWrapper');
-                let team_logo = document.createElement('img');
-                team_logo.classList.add('teamLogo');
                 let team_name = document.createElement('div');
                 team_name.classList.add('teamName');
                 let team_name_link = document.createElement('a');
+                let team_name_link_text = document.createElement('h4');
                 let team_wins = document.createElement('div');
                 team_wins.classList.add('teamWon');
                 let team_wins_text = document.createElement('h4');
@@ -58,13 +55,20 @@
 
 
                 //fill in data
+                let team_logo;
                 if(curr_team.logo_status == 1){
-                    console.log("logo set");
-                    team_logo.src = "/Interact/teams/profileImages/" + curr_team.name;
+                    team_logo = document.createElement('img');
+                    team_logo.src = "/Interact/teams/profileImages/" + curr_team.id + '.jpg';
                 }
+                else {
+                    team_logo = document.createElement('i');
+                    team_logo.classList.add('fa');
+                    team_logo.classList.add('fa-users');
+                }
+                team_logo.classList.add('teamLogo');
 
-                team_name_link.innerText = curr_team.name;
                 team_name_link.href = './team.php?team=' + curr_team.name;
+                team_name_link_text.innerText = curr_team.name;
 
                 team_wins_text.innerText = curr_team.wins;
                 team_losses_text.innerText = curr_team.losses;
@@ -73,7 +77,9 @@
 
                 //Structure through appends
                 team.appendChild(team_logo_wrapper);
-                team.appendChild(team_name_link);
+                team_name_link.appendChild(team_name_link_text);
+                team_name.appendChild(team_name_link);
+                team.append(team_name);
                 team.appendChild(team_wins);
                 team.appendChild(team_losses);
                 team.appendChild(more_info);
@@ -113,7 +119,7 @@
     function handle_req(req, callback){
         req.onreadystatechange = () => {
             if(req.readyState == 4 && req.status == 200){
-                console.log("Server Response : ", req.responseText);
+                //console.log("Server Response : ", req.responseText);
                 callback(req.responseText);
             }
         }

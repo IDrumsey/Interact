@@ -1,5 +1,4 @@
 <?php
-//include_once "./getUserTeamInfo.php";
 
 //new php
 include_once 'main.php';
@@ -50,23 +49,7 @@ for($i = 0; $i < sizeof($player_teams); $i++){
       <div id="body">
         <div id="teams">
           <h2 id="teamListTitle">My Teams</h2>
-          <div id="teamList">
-            <?php
-            for($t = 0; $t < sizeof($allTeamInfo); $t++){
-              echo "<div class='team'>
-              <div class='teamLogoWrapper'>
-              <img src='/Interact/teams/profileImages/" . $allTeamInfo[$t]['team_ID'] . ".jpg' class='teamLogo'>
-              </div>
-              <a href='./team.php?team=" . $allTeamInfo[$t]['team_Name'] . "'>
-              <div class='teamName'><h4>" . $allTeamInfo[$t]['team_Name'] . "</h4></div>
-              </a>
-              <div class='teamWon'><h4>Won : " . $allTeamInfo[$t]['numWins'] . "</h4></div>
-              <div class='teamLost'><h4>Lost : " . $allTeamInfo[$t]['numLosses'] . "</h4></div>
-              <div class='more'><a href='./team.php?team=" . $allTeamInfo[$t]['team_Name'] . "'><i class='fa fa-arrow-right'></i></a></div>
-            </div>";
-            }
-            ?>
-          </div>
+          <div id="teamList"></div>
         </div>
         <div id="createTeam">
           <a href="./teams.create.php"><h2 id="createTeamBtn">Create Team</h2></a>

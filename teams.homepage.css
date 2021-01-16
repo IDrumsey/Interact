@@ -3,7 +3,8 @@ h4 {
   margin: 0;
 }
 
-html::-webkit-scrollbar, #body::-webkit-scrollbar {
+html::-webkit-scrollbar,
+#body::-webkit-scrollbar {
   display: none;
 }
 
@@ -44,7 +45,7 @@ html::-webkit-scrollbar, #body::-webkit-scrollbar {
   max-height: 200px;
   border-radius: 5px;
   overflow-x: scroll;
-  background-color: rgba(0, 0, 0, 0.70) !important;
+  background-color: rgba(0, 0, 0, 0.7) !important;
 }
 
 #teamList::-webkit-scrollbar {
@@ -81,6 +82,7 @@ html::-webkit-scrollbar, #body::-webkit-scrollbar {
   align-items: center;
   padding-left: 10px;
   transition: text-shadow 50ms linear;
+  height: 100%;
 }
 
 .team a:hover {
@@ -116,7 +118,7 @@ html::-webkit-scrollbar, #body::-webkit-scrollbar {
   bottom: 50px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.70) !important;
+  background-color: rgba(0, 0, 0, 0.7) !important;
 }
 
 #createTeam:hover {

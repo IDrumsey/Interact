@@ -325,6 +325,7 @@ class Team {
     public $wins;
     public $losses;
     public $logo_status;
+    public $id;
     public $users = [];
 
     function __construct(){
@@ -342,7 +343,10 @@ class Team {
             $this->losses = $num_losses;
         }
         function set_team_logo_status($status){
-            $this->status = $status;
+            $this->logo_status = $status;
+        }
+        function set_team_id($id){
+            $this->id = $id;
         }
 
 
@@ -546,7 +550,9 @@ function get_team_info($team_id, $conn){
     $team->set_team_name($team_name);
     $team->set_team_wins($team_wins);
     $team->set_team_losses($team_losses);
+    $team->set_team_wins($team_wins);
     $team->set_team_logo_status($team_logo_status);
+    $team->set_team_id($team_id);
 
     return $team;
 }
