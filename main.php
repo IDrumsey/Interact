@@ -425,16 +425,14 @@ class User {
 
 
 
-function get_tournament_info($tournament_name, $conn){
+function get_tournament_info($tournament_id, $conn){
     //create new tournament
 
     $tournament = new Tournament();
 
     //run necessary queries
 
-    $tournament_info = query_tournament($tournament_name, $conn);
-
-    $tournament_id = $tournament_info['tournament_ID'];
+    $tournament_info = query_tournament($tournament_id, $conn);
 
     //Get tournament rounds
     $tournament_rounds = query_tournament_rounds($tournament_id, $conn);
@@ -456,7 +454,7 @@ function get_tournament_info($tournament_name, $conn){
     }
 
     //set obj props
-    $tournament->set_tournament_name($tournament_name);
+    $tournament->set_tournament_name($tournament_info['tournament_Name']);
     $tournament->set_tournament_total_prize($tournament_info['prize']);
     $tournament->set_tournament_start_date($tournament_info['start_date']);
     $tournament->set_tournament_end_date($tournament_info['end_date']);
@@ -724,6 +722,106 @@ function query_user_id($username, $conn){
 mysqli_close($conn);
 }
 
+function query_user_tournament_ids($user_id, $conn){
+    //Gets all tournament id's of user given
+    $tournaments = [];
+    $sql = "SELECT tournament_id FROM tournament_player_association WHERE user_id = ?";
+    $stmt = mysqli_stmt_init($conn);
+    if(mysqli_stmt_prepare($stmt, $sql) == false){
+        echo "Error in preparing sql statement";
+    }
+    else{
+        if(mysqli_stmt_bind_param($stmt, 'i', $user_id) == false){
+            echo "Error in binding parameters";
+        }
+        else{
+            if(mysqli_execute($stmt) == false){
+                echo "Error in running query";
+            }
+            else{
+                $result = mysqli_stmt_get_result($stmt);
+                while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+                    array_push($tournaments, $row['tournament_id']);
+                }
+                return $tournaments;
+            }
+        }
+    }
+mysqli_close($conn);
+}
+
+function query_user_tournaments($user_id, $conn){
+    //Get user tournament id's
+    $user_tournament_ids = query_user_tournament_ids($user_id, $conn);
+
+    $user_tournaments = [];
+
+
+    //create tournaments for each id
+    for($t = 0; $t < sizeof($user_tournament_ids); $t++){
+        $tournament = get_tournament_info($user_tournament_ids[$t], $conn);
+        array_push($user_tournaments, $tournament);
+    }
+
+    return $user_tournaments;
+}
+
+function query_user_invitations($user_id, $conn){
+    //Gets all invitations for given user
+    $invitations = [];
+    $sql = "SELECT invitor, invitations.type, tournament_ID, match_ID, team_ID FROM invitations WHERE invited = ?";
+    $stmt = mysqli_stmt_init($conn);
+    if(mysqli_stmt_prepare($stmt, $sql) == false){
+        echo "Error in preparing sql statement";
+    }
+    else{
+        if(mysqli_stmt_bind_param($stmt, 'i', $user_id) == false){
+            echo "Error in binding parameters";
+        }
+        else{
+            if(mysqli_execute($stmt) == false){
+                echo "Error in running query";
+            }
+            else{
+                $result = mysqli_stmt_get_result($stmt);
+                while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+                    $invitation['type'] = $row['type'];
+                    //Get invitor info
+                    $invitor = get_user_info($row['invitor'], $conn);
+                    $invitation['invitor'] = $invitor;
+
+                    //Get tournament, team, or match info
+                    switch($row['type']){
+                        case 'Tournament':
+                            //Get tournament info
+                            $tournament = get_tournament_info($row['tournament_ID'], $conn);
+                            $invitation['tournament'] = $tournament;
+                            
+                            //Get joining team info
+                            $joining_team = get_team_info($row['team_ID'], $conn);
+                            $invitation['joining_team'] = $joining_team;
+                            break;
+                        case 'Team':
+                            //Get team info
+                            $team = get_team_info($row['team_ID'], $conn);
+                            $invitation['team'] = $team;
+                            break;
+                        case 'Match':
+                            //Get match info
+                            $match = get_match_info($row['match_ID'], $conn);
+                            $invitation['match'] = $match;
+                            break;
+                        }
+                    
+                    array_push($invitations, $invitation);
+                }
+                return $invitations;
+            }
+        }
+    }
+mysqli_close($conn);
+}
+
 
 
 //TOURNAMENT QUERIES
@@ -806,16 +904,16 @@ function query_round_matches($round_id, $conn){
 mysqli_close($conn);
 }
 
-function query_tournament($tournament_name, $conn){
+function query_tournament($tournament_id, $conn){
     //Gets general tournament info
     
-    $sql = "SELECT t1.tournament_ID, t1.totalPrize AS prize, t1.num_players_registered AS registered_players, t1.num_teams_registered AS registered_teams, t1.start_date, t1.end_date, t1.join_Prize_Type, t1.status, t1.grouping_style, t1.owner, t2.title, t3.bracket_name, t4.method_name FROM tournament t1 INNER JOIN game t2 ON t2.game_ID = t1.gameID INNER JOIN bracket_type t3 ON t3.bracket_ID = t1.bracket_type_ID INNER JOIN prize_distribution_method t4 ON t4.method_id = t1.prize_distribution_ID WHERE tournament_Name = ?";
+    $sql = "SELECT t1.tournament_Name, t1.totalPrize AS prize, t1.num_players_registered AS registered_players, t1.num_teams_registered AS registered_teams, t1.start_date, t1.end_date, t1.join_Prize_Type, t1.status, t1.grouping_style, t1.owner, t2.title, t3.bracket_name, t4.method_name FROM tournament t1 INNER JOIN game t2 ON t2.game_ID = t1.gameID INNER JOIN bracket_type t3 ON t3.bracket_ID = t1.bracket_type_ID INNER JOIN prize_distribution_method t4 ON t4.method_id = t1.prize_distribution_ID WHERE tournament_ID = ?";
     $stmt = mysqli_stmt_init($conn);
     if(mysqli_stmt_prepare($stmt, $sql) == false){
         echo "Error in preparing sql statement";
     }
     else{
-        if(mysqli_stmt_bind_param($stmt, 's', $tournament_name) == false){
+        if(mysqli_stmt_bind_param($stmt, 'i', $tournament_id) == false){
             echo "Error in binding parameters";
         }
         else{
@@ -910,6 +1008,30 @@ function query_tournament_registered_players($tournament_id, $conn){
                     array_push($registered_players, $row['user_id']);
                 }
                 return $registered_players;
+            }
+        }
+    }
+    mysqli_close($conn);
+}
+
+function query_tournament_name($tournament_id, $conn){
+    //Gets tournament name given tournament id
+    $sql = "SELECT tournament_Name FROM tournament WHERE tournament_ID = ?";
+    $stmt = mysqli_stmt_init($conn);
+    if(mysqli_stmt_prepare($stmt, $sql) == false){
+        echo "Error in preparing sql statement";
+    }
+    else{
+        if(mysqli_stmt_bind_param($stmt, 's', $tournament_id) == false){
+            echo "Error in binding parameters";
+        }
+        else{
+            if(mysqli_execute($stmt) == false){
+                echo "Error in running query";
+            }
+            else{
+                $result = mysqli_stmt_get_result($stmt);
+                return(mysqli_fetch_array($result, MYSQLI_ASSOC)['tournament_Name']);
             }
         }
     }

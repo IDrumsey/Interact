@@ -10,7 +10,8 @@
 
         //Basically a router for getting data from the backend
         switch(page_url){
-            case('teams.homepage.php'): init_teams_homepage_php();
+            case('teams.homepage.php'): init_teams_homepage_php(); break;
+            case('dashboard.php'): init_dashboard_php(); break;
         }
     }
 
@@ -101,19 +102,283 @@
 
         handle_req(get_teams_req, integrate_teams);
 
-        get_teams_req.open('GET', 'Backend/get_teams.php', true);
+        get_teams_req.open('GET', 'Backend/get_user_teams.php', true);
         get_teams_req.send();
     }
 
+    function init_dashboard_php(){
+        //Get user data
+        let res;
+        let user_data_req = create_request();
+
+        let handle_user_data = function(data){
+            //Parse data
+            res = JSON.parse(data);
+
+            //Separate user info and tournament info
+            let user_info = res.user;
+            let user_tournaments = res.tournaments;
+
+            //integrate user logo
+            
+                //Get parent
+                let profile = document.getElementById('profile');
+
+                //Build wrap
+                let logo_wrap = document.createElement('div');
+                    logo_wrap.classList.add('spinEl');
+                    logo_wrap.onclick = 'redir(1)';
+
+                let logo;
+                
+                //Check if logo set
+                if(user_info.logo_status == true){
+                    //Build logo
+                    logo = document.createElement('img');
+                    logo.id = 'profilePic';
+                    logo.alt = 'Profile Picture';
+                    //Add data
+                    logo.src = '/Interact/users/profileImages/' + user_info.user_id + '.jpg';
+                }
+                else{
+                    //build logo
+                    logo = document.createElement('i');
+                    logo.id = 'profilePic';
+                    logo.classList.add('fa');
+                    logo.classList.add('fa-user');
+                }
+
+                //Append
+                logo_wrap.appendChild(logo);
+                profile.appendChild(logo_wrap);
+
+            //Separate tournament games by date
+            let user_matches_past = [];
+            let user_matches_future = [];
+            
+
+            //set curr date and time
+            let start_cmp = new Date();
+
+            for(let t in user_tournaments){
+                let ct = user_tournaments[t];
+                //go through each round
+                for(let r in ct.rounds){
+                    let cr = ct.rounds[r];
+                    //Go through each match
+                    for(let m in cr.matches){
+                        let cm = cr.matches[m];
+                        //check if start hasn't been set
+                        if(cm.start_date == null){
+                            user_matches_future.push(cm);
+                        }
+                        else{
+                            //set start date to compare
+                            let cm_start = new Date(cm.start_date + 'T' + cm.start_time);
+                            if(cm_start >= start_cmp){
+                                //add to futures
+                                user_matches_future.push(cm);
+                            }
+                            else{
+                                //add to past
+                                user_matches_past.push(cm);
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            //integrate upcoming games data
+            let future_match_list = document.getElementById('upcomingGames').children[1];
+
+            for(let f in user_matches_future){
+                let cm = user_matches_future[f];
+                
+                let match = document.createElement('upcomingGame');
+                let time_wrap = document.createElement('time');
+                let time_text = document.createElement('h3');
+                let teams_wrap = document.createElement('div');
+                let team_a = document.createElement('div');
+                let team_a_name = document.createElement('h3');
+                let team_sep = document.createElement('div');
+                let team_sep_text = document.createElement('h3');
+                let team_b = document.createElement('div');
+                let team_b_name = document.createElement('h3');
+                let match_more = document.createElement('div');
+                let match_more_logo = document.createElement('i');
+
+                match.classList.add('upcomingGame');
+                time_wrap.classList.add('time');
+                teams_wrap.classList.add('teams');
+                team_a.classList.add('teamA');
+                team_sep.classList.add('separator');
+                team_b.classList.add('teamB');
+                match_more.classList.add('more');
+                match_more_logo.classList.add('fa');
+                match_more_logo.classList.add('fa-arrow-right');
+
+                //Add data
+                time_text.innerText = cm.start_time;
+                team_a_name.innerText = cm.team_a.name;
+                team_sep_text.innerText = 'vs';
+                team_b_name.innerText = cm.team_b.name;
+
+                //Append
+                match.appendChild(time_wrap);
+                time_wrap.appendChild(time_text);
+                match.appendChild(teams_wrap);
+                teams_wrap.appendChild(team_a);
+                team_a.appendChild(team_a_name);
+                teams_wrap.appendChild(team_sep);
+                team_sep.appendChild(team_sep_text);
+                teams_wrap.appendChild(team_b);
+                team_b.appendChild(team_b_name);
+                match.appendChild(match_more);
+                match_more.appendChild(match_more_logo);
+                future_match_list.appendChild(match);
+
+            }
+
+
+
+
+            //integrate invitations data
+            let user_invitations = res.invitations;
+
+            let invitation_list = document.getElementById('invitations').children[1];
+            
+            for(let i in user_invitations){
+                let ci = user_invitations[i];
+
+                // <div class='invitation'>
+                //         <div class='invitor'><h3>" . $row['username'] . "</h3></div>
+                //         <div class='type'><h3>" . $row['type'] . "</h3></div>
+                //         <div class='options'>
+                //           <div class='accept'><a href='" . $nextPage . "'><i class='fa fa-check'></i></a></div>
+                //           <div class='reject'><i class='fa fa-times'></i></div>
+                //         </div>
+                //         </div>
+
+                //Build el
+                let invitation = cEl('div', {"classes": 'invitation'});
+                let invitor = cEl('div', {"classes": 'invitor'});
+                let invitor_name = cEl('h3', {});
+                let invitation_type = cEl('div', {"classes": 'type'});
+                let invitation_type_text = cEl('h3', {});
+                let invitation_options = cEl('div', {"classes": 'options'});
+                let option_accept_wrap = cEl('div', {"classes": 'accept'});
+                let option_accept = cEl('a', {});
+                let accept_logo = cEl('i', {"classes": ['fa', 'fa-check']});
+                let option_decline_wrap = cEl('div', {"classes": 'reject'});
+                let option_decline = cEl('a', {});
+                let decline_logo = cEl('i', {"classes": ['fa', 'fa-times']});
+
+                //Add data
+                invitor_name.innerText = ci.invitor.username;
+                invitation_type_text.innerText = ci.type;
+
+                //link options
+                switch(ci.type){
+                    case('Team'):
+                        option_accept.href = "acceptTeamInv.php?team=" + ci.team.name + "&player=" + user_info.user_id;
+
+                        //TODO : decline option
+                        break;
+
+                    case('Tournament'):
+                        option_accept.href = "newPlayerTournamentAssociation.php?team=" + ci.joining_team.name + "&player=" + user_info.username + "&tournamentName=" + ci.tournament.name;
+
+                        //TODO : decline option
+                        break;
+
+                    //TODO : case match
+                }
+
+                //TODO Add later - team, tournament, or match identifier (name, time, etc)
+
+                //Append
+                invitation.appendChild(invitor);
+                invitor.appendChild(invitor_name);
+                invitation.appendChild(invitation_type);
+                invitation_type.appendChild(invitation_type_text);
+                invitation.appendChild(invitation_options);
+                invitation_options.appendChild(option_accept_wrap);
+                option_accept_wrap.appendChild(option_accept);
+                option_accept.appendChild(accept_logo);
+                invitation_options.appendChild(option_decline_wrap);
+                option_decline_wrap.appendChild(option_decline);
+                option_decline.appendChild(decline_logo);
+
+                invitation_list.appendChild(invitation);
+            }
+
+
+
+            //integrate history data
+            let past_match_list = document.getElementById('history').children[1];
+
+            for(let p in user_matches_past){
+                let cm = user_matches_past[p];
+                
+                let match = document.createElement('upcomingGame');
+                let time_wrap = document.createElement('time');
+                let time_text = document.createElement('h3');
+                let teams_wrap = document.createElement('div');
+                let team_a = document.createElement('div');
+                let team_a_name = document.createElement('h3');
+                let team_sep = document.createElement('div');
+                let team_sep_text = document.createElement('h3');
+                let team_b = document.createElement('div');
+                let team_b_name = document.createElement('h3');
+                let match_more = document.createElement('div');
+                let match_more_logo = document.createElement('i');
+
+                match.classList.add('upcomingGame');
+                time_wrap.classList.add('time');
+                teams_wrap.classList.add('teams');
+                team_a.classList.add('teamA');
+                team_sep.classList.add('separator');
+                team_b.classList.add('teamB');
+                match_more.classList.add('more');
+                match_more_logo.classList.add('fa');
+                match_more_logo.classList.add('fa-arrow-right');
+
+                //Add data
+                time_text.innerText = cm.start_time;
+                team_a_name.innerText = cm.team_a.name;
+                team_sep_text.innerText = 'vs';
+                team_b_name.innerText = cm.team_b.name;
+
+                //Append
+                match.appendChild(time_wrap);
+                time_wrap.appendChild(time_text);
+                match.appendChild(teams_wrap);
+                teams_wrap.appendChild(team_a);
+                team_a.appendChild(team_a_name);
+                teams_wrap.appendChild(team_sep);
+                team_sep.appendChild(team_sep_text);
+                teams_wrap.appendChild(team_b);
+                team_b.appendChild(team_b_name);
+                match.appendChild(match_more);
+                match_more.appendChild(match_more_logo);
+                past_match_list.appendChild(match);
+
+            }
+        }
+
+        handle_req(user_data_req, handle_user_data);
+
+        user_data_req.open('GET', 'Backend/get_dashboard.php');
+        user_data_req.send();
+    }
 
 
 
     //other functionality
 
     function new_req(){
-        let req = create_request();
-        
-        return req;
+        return create_request();
     }
 
     function handle_req(req, callback){
@@ -157,6 +422,29 @@
 
         el.innerText = innerText;
 
+        return el;
+    }
+
+    function extract_time_fragments(time){
+        let fragments = time.split(':');
+        return {
+            "hours": fragments[0],
+            "minutes": fragments[1]
+        }
+    }
+
+    function cEl(tag, load){
+        let el = document.createElement(tag);
+        if(load.classes){
+            if(Array.isArray(load.classes)){
+                for(let c in load.classes){
+                    el.classList.add(load.classes[c]);
+                }
+            }
+            else if(typeof(load.classes) == "string"){
+                el.classList.add(load.classes);
+            }
+        }
         return el;
     }
 })()
