@@ -88,5 +88,6 @@ if(isset($_GET['team'])){
         <div id="settings"><i class="fa fa-cog"></i></div>
       </div>
     </div>
+    <script src="main.js"></script>
   </body>
 </html>

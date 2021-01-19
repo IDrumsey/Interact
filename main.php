@@ -822,6 +822,29 @@ function query_user_invitations($user_id, $conn){
 mysqli_close($conn);
 }
 
+function query_team_id($team_name, $conn){
+    //Gets team id given team name
+    $sql = "SELECT team_ID FROM teamdetails WHERE team_Name = ?";
+    $stmt = mysqli_stmt_init($conn);
+    if(mysqli_stmt_prepare($stmt, $sql) == false){
+        echo "Error in preparing sql statement";
+    }
+    else{
+        if(mysqli_stmt_bind_param($stmt, 's', $team_name) == false){
+            echo "Error in binding parameters";
+        }
+        else{
+            if(mysqli_execute($stmt) == false){
+                echo "Error in running query";
+            }
+            else{
+                $result = mysqli_stmt_get_result($stmt);
+                return(mysqli_fetch_array($result, MYSQLI_ASSOC)['team_ID']);
+            }
+        }
+    }
+mysqli_close($conn);
+}
 
 
 //TOURNAMENT QUERIES

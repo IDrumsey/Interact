@@ -7,16 +7,19 @@
     function get_page_init(){
 
         let page_url = window.location.href.split('/').pop().split('?')[0];
+        console.log(page_url);
 
         //Basically a router for getting data from the backend
         switch(page_url){
             case('teams.homepage.php'): init_teams_homepage_php(); break;
             case('dashboard.php'): init_dashboard_php(); break;
+            case('team.php'): init_team_php(); break;
         }
     }
 
 
     //Get data and integrate into the frontend
+    //TODO : Get rid of the php text in the function names
     function init_teams_homepage_php(){
 
         //Get team info for this user
@@ -109,7 +112,7 @@
     function init_dashboard_php(){
         //Get user data
         let res;
-        let user_data_req = create_request();
+        let user_data_req = new_req();
 
         let handle_user_data = function(data){
             //Parse data
@@ -373,12 +376,29 @@
         user_data_req.send();
     }
 
+    function init_team_php(){
+        let url_params = getURLParams();
+
+        let team_req = new_req();
+
+        let team_req_handler = function(data){
+            let team = JSON.parse(data);
+            console.log("Team : ", team);
+        }
+
+        handle_req(team_req, team_req_handler);
+
+        team_req.open('GET', "Backend/get_team.php?" + url_params[0].parameter + '=' + url_params[0].value);
+
+        team_req.send();
+    }
+
 
 
     //other functionality
 
     function new_req(){
-        return create_request();
+        return new XMLHttpRequest();
     }
 
     function handle_req(req, callback){
@@ -392,10 +412,6 @@
 
     function print_response(res){
         console.log(res);
-    }
-
-    function create_request(){
-        return new XMLHttpRequest();
     }
 
 
@@ -446,5 +462,23 @@
             }
         }
         return el;
+    }
+
+    function getURLParams(){
+        let url = new URL(window.location);
+        let params_raw = url.search.substring(1).split('&');
+        let params = [];
+        for(let p in params_raw){
+            params.push(splitURLParam(params_raw[p]));
+        }
+        return params;
+    }
+
+    function splitURLParam(param){
+        let sep = param.split('=');
+        return {
+            "parameter": sep[0],
+            "value": sep[1]
+        }
     }
 })()
