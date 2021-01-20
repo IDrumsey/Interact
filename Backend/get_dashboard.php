@@ -4,7 +4,7 @@
     //Get user id
     $user_id = query_user_id($_SESSION['user'], $conn);
     //get user
-    $user = get_user_info($user_id, $conn);
+    $user = get_user_info($user_id, false, $conn);
     //get user tournaments
     $user_tournaments = query_user_tournaments($user_id, $conn);
 

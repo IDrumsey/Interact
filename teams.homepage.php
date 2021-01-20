@@ -8,7 +8,7 @@ $player_teams = query_player_teams(query_user_id($_SESSION['user'], $conn), $con
 $teams = [];
 //get all team info
 for($i = 0; $i < sizeof($player_teams); $i++){
-  array_push($teams, get_team_info($player_teams[$i], $conn));
+  array_push($teams, get_team_info($player_teams[$i], false, $conn));
 }
 
 ?>

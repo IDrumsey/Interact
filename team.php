@@ -23,27 +23,10 @@ if(isset($_GET['team'])){
         <h1>TEAMS</h1>
       </div>
       <div id="body">
-        <div id="teamInfo">
-          <h1 id="teamName"><?php echo $_GET['team']; ?></h1>
-          <h1 id="winLossRatio">1:1</h1>
-        </div>
+        <div id="teamInfo"></div>
         <div id="teamMembers">
           <h2 id="membersTitle">Players</h2>
-          <div id="memberList">
-            <?php
-            for($i = 0; $i < sizeof($teamPlayers); $i++){
-              echo "<div class='teamMember'>
-            <div class='playerLogoWrapper'>
-              <img src='./users/profileImages/" . $teamPlayers[$i]['id'] . ".jpg' class='playerLogo'>
-            </div>
-            <a href='player.php?player=" . $teamPlayers[$i]['username'] . "'>
-              <h2>" . $teamPlayers[$i]['username'] . "</h2>
-            </a>
-            <div class='memberRank'><h2>" . $teamPlayers[$i]['rank'] . "</h2></div>
-          </div>";
-            }
-            ?>
-          </div>
+          <div id="memberList"></div>
         </div>
         <div id="history">
           <h2>History</h2>

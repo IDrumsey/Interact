@@ -8,7 +8,7 @@
 
     $teams = [];
     for($i = 0; $i < sizeof($player_team_ids); $i++){
-        array_push($teams, get_team_info($player_team_ids[$i], $conn));
+        array_push($teams, get_team_info($player_team_ids[$i], false, $conn));
     }
 
     echo json_encode($teams);

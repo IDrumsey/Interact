@@ -70,7 +70,6 @@
 
 
 //include connection
-
 if(!isset($conn)){
     include_once "dbConn.php";
 }
@@ -327,6 +326,7 @@ class Team {
     public $logo_status;
     public $id;
     public $users = [];
+    public $matches = [];
 
     function __construct(){
         
@@ -356,6 +356,14 @@ class Team {
             array_push($this->users, $user);
         }
 
+        function add_team_match($match){
+            array_push($this->matches, $match);
+        }
+
+        function add_team_matches($matches){
+            $this->matches = array_merge($this->matches, $matches);
+        }
+
 
 
     //Getters
@@ -374,6 +382,9 @@ class Team {
         function get_team_users(){
             return $this->users;
         }
+        /* function get_team_matches(){
+            return $this->matches;
+        } */
 
     //Other
         function init($team_name, $wins, $losses, $logo_status){
@@ -388,6 +399,7 @@ class Team {
 
 
 class User {
+    public $id;
     public $username;
     public $logo_status;
 
@@ -402,6 +414,9 @@ class User {
         function set_user_logo_status($status){
             $this->logo_status = $status;
         }
+        function set_user_id($id){
+            $this->id = $id;
+        }
 
 
     //Getters
@@ -411,11 +426,35 @@ class User {
         function get_user_logo_status(){
             return $this->logo_status;
         }
+        function get_user_id(){
+            return $this->id;
+        }
 
     //Other
-        function init($username, $logo_status){
+        function init($username, $logo_status, $id){
             $this->set_user_username($username);
             $this->set_user_logo_status($logo_status);
+            $this->set_user_id($id);
+        }
+}
+
+class Team_Member extends User {
+    public $rank;
+
+    //Setters
+    function set_member_rank($rank){
+        $this->rank = $rank;
+    }
+
+    //Getters
+    function get_member_rank(){
+        return $this->rank;
+    }
+
+    //Other
+        function init_member($username, $logo_status, $id, $rank){
+            init($username, $logo_status, $id);
+            $this->set_member_rank($rank);
         }
 }
 
@@ -495,10 +534,15 @@ function get_round_info($round_id, $conn){
 }
 
 
-function get_user_info($user_id, $conn){
+function get_user_info($user_id, $team_member, $conn){
     //create new user
 
-    $user = new User();
+    if(!$team_member){
+        $user = new User();
+    }
+    else{
+        $user = new Team_Member();
+    }
 
     //run necessary queries
 
@@ -515,12 +559,12 @@ function get_user_info($user_id, $conn){
 
     $user->set_user_username($user_username);
     $user->set_user_logo_status($user_logo_status);
+    $user->set_user_id($user_id);
 
     return $user;
 }
 
-
-function get_team_info($team_id, $conn){
+function get_team_info($team_id, $get_matches, $conn){
     //create new team
     $team = new Team();
 
@@ -540,7 +584,16 @@ function get_team_info($team_id, $conn){
 
     //Get member info
     for($i = 0; $i < sizeof($team_members); $i++){
-        $team->add_team_user(get_user_info($team_members[$i], $conn));
+        $team->add_team_user(get_user_info($team_members[$i], true, $conn));
+        //Get member rank
+        $team->users[$i]->set_member_rank(query_user_team_rank($team->users[$i]->id, $team_id, $conn));
+    }
+
+    //Get team matches
+    if($get_matches)
+    {
+        $team_matches = query_team_matches($team_id, $conn);
+        $team->add_team_matches($team_matches);
     }
 
     //set obj props
@@ -567,8 +620,8 @@ function get_match_info($match_id, $conn){
     //Instead of create a bunch of temp vars, just use the assoc array in setters
 
     //Set teams
-    $teamA = get_team_info($match_info['team1_ID'], $conn);
-    $teamB = get_team_info($match_info['team2_ID'], $conn);
+    $teamA = get_team_info($match_info['team1_ID'], false, $conn);
+    $teamB = get_team_info($match_info['team2_ID'], false, $conn);
 
     //set props
     $match->set_match_start_date($match_info['start_date']);
@@ -787,7 +840,7 @@ function query_user_invitations($user_id, $conn){
                 while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
                     $invitation['type'] = $row['type'];
                     //Get invitor info
-                    $invitor = get_user_info($row['invitor'], $conn);
+                    $invitor = get_user_info($row['invitor'], false, $conn);
                     $invitation['invitor'] = $invitor;
 
                     //Get tournament, team, or match info
@@ -798,12 +851,12 @@ function query_user_invitations($user_id, $conn){
                             $invitation['tournament'] = $tournament;
                             
                             //Get joining team info
-                            $joining_team = get_team_info($row['team_ID'], $conn);
+                            $joining_team = get_team_info($row['team_ID'], false, $conn);
                             $invitation['joining_team'] = $joining_team;
                             break;
                         case 'Team':
                             //Get team info
-                            $team = get_team_info($row['team_ID'], $conn);
+                            $team = get_team_info($row['team_ID'], false, $conn);
                             $invitation['team'] = $team;
                             break;
                         case 'Match':
@@ -840,6 +893,58 @@ function query_team_id($team_name, $conn){
             else{
                 $result = mysqli_stmt_get_result($stmt);
                 return(mysqli_fetch_array($result, MYSQLI_ASSOC)['team_ID']);
+            }
+        }
+    }
+mysqli_close($conn);
+}
+
+function query_user_team_rank($user_id, $team_id, $conn){
+    //Gets the rank of a team member given the user and the team
+    $sql = "SELECT rank FROM teamassociations WHERE userID = ? and teamID = ?";
+    $stmt = mysqli_stmt_init($conn);
+    if(mysqli_stmt_prepare($stmt, $sql) == false){
+        echo "Error in preparing sql statement";
+    }
+    else{
+        if(mysqli_stmt_bind_param($stmt, 'ii', $user_id, $team_id) == false){
+            echo "Error in binding parameters";
+        }
+        else{
+            if(mysqli_execute($stmt) == false){
+                echo "Error in running query";
+            }
+            else{
+                $result = mysqli_stmt_get_result($stmt);
+                return(mysqli_fetch_array($result, MYSQLI_ASSOC)['rank']);
+            }
+        }
+    }
+mysqli_close($conn);
+}
+
+function query_team_matches($team_id, $conn){
+    //Gets all the match ids of a team
+    $matches = [];
+    $sql = "SELECT id FROM tournamentmatch WHERE team1_ID = ? OR team2_ID = ?";
+    $stmt = mysqli_stmt_init($conn);
+    if(mysqli_stmt_prepare($stmt, $sql) == false){
+        echo "Error in preparing sql statement";
+    }
+    else{
+        if(mysqli_stmt_bind_param($stmt, 'ii', $team_id, $team_id) == false){
+            echo "Error in binding parameters";
+        }
+        else{
+            if(mysqli_execute($stmt) == false){
+                echo "Error in running query";
+            }
+            else{
+                $result = mysqli_stmt_get_result($stmt);
+                while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+                    array_push($matches, get_match_info($row['id'], $conn));
+                }
+                return $matches;
             }
         }
     }

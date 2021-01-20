@@ -1,4 +1,4 @@
-(() => {
+(() => { 
 
     //Listen for page load
 
@@ -7,7 +7,6 @@
     function get_page_init(){
 
         let page_url = window.location.href.split('/').pop().split('?')[0];
-        console.log(page_url);
 
         //Basically a router for getting data from the backend
         switch(page_url){
@@ -388,7 +387,145 @@
 
         let team_req_handler = function(data){
             let team = JSON.parse(data);
-            console.log("Team : ", team);
+
+            //team name and win-loss ratio parent
+            let par = document.getElementById('teamInfo');
+
+            //Team name
+
+                //Create elements
+                let team_name = cEl('h1', {"id": 'teamName'});
+
+                //Add Data
+                team_name.innerText = team.name;
+
+                //Append elements
+                par.appendChild(team_name);
+
+            //Win-Loss Ratio
+
+                //Create elements
+                let team_win_loss_ratio = cEl('h1', {"id": 'winLossRatio'});
+
+                //Add Data
+                team_win_loss_ratio.innerText = team.wins + ' : ' + team.losses;
+
+                //Append elements
+                par.appendChild(team_win_loss_ratio);
+
+
+
+            //Players
+
+                //Get parent
+                par = document.getElementById('memberList');
+                
+                //For each member
+                for(let u in team.users){
+                    let cp = team.users[u];
+
+                    //Create elements
+                    let member_wrap = cEl('div', {"classes": 'teamMember'});
+                    let player_logo_wrap = cEl('div', {"classes": 'playerLogoWrapper'});
+                    let player_logo = cEl('img', {"classes": 'playerLogo', "src": "/Interact/users/profileImages/" + cp.id + ".jpg"});
+                    let player_name_wrap = cEl('a', {"ref": "player.php?player=" + cp.name});
+                    let player_name = cEl('h2', {});
+                    let member_rank_wrap = cEl('div', {"classes": 'memberRank'});
+                    let member_rank = cEl('h2', {});
+
+                    //Add data
+                    player_name.innerText = cp.username;
+                    member_rank.innerText = cp.rank;
+
+                    //Append elements
+                    member_wrap.appendChild(player_logo_wrap);
+                    player_logo_wrap.appendChild(player_logo);
+                    member_wrap.appendChild(player_name_wrap);
+                    player_name_wrap.appendChild(player_name);
+                    member_wrap.appendChild(member_rank_wrap);
+                    member_rank_wrap.appendChild(member_rank);
+
+                    par.appendChild(member_wrap);
+                }
+
+
+            //Matches
+
+                //Separate matches by date
+                let team_matches_future = [];
+                let team_matches_past = [];
+
+                let curr_start = new Date();
+
+                for(let m in team.matches){
+                    let cm = team.matches[m];
+                    let cm_start = new Date(cm.start_date + 'T' + cm.start_time);
+                    
+                    //Compare starts
+                    if(cm_start <= curr_start){
+                        team_matches_past.push(cm);
+                    }
+                    else {
+                        team_matches_future.push(cm);
+                    }
+                }
+
+                //History
+
+                    //Get parent
+                    par = document.getElementById('historyList');
+
+                    for(let m in team_matches_past){
+                        let cm = team_matches_past[m];
+
+                    //Create elements
+                        let match_wrap = cEl('div', {"classes": 'historyItem'});
+                        let match_date_wrap = cEl('div', {"classes": 'matchDate'});
+                        let match_date = cEl('h2', {});
+                        let match_time_wrap = cEl('div', {"classes": 'matchTime'});
+                        let match_time = cEl('h2', {});
+                        let team_a_wrap = cEl('div', {"classes": 'team1'});
+                        let team_a_name = cEl('h2', {});
+                        let team_sep_wrap = cEl('div', {"classes": 'separator'});
+                        let team_sep = cEl('h2', {});
+                        let team_b_wrap = cEl('div', {"classes": 'team2'});
+                        let team_b_name = cEl('h2', {});
+                        let winning_team_crown = cEl('i', {"classes": ['fa', 'fa-crown']});
+
+
+                    //Add Data
+                        match_date.innerText = cm.start_date;
+                        match_time = cm.start_time;
+                        team_a_name = cm.team_a.name;
+                        team_b_name = cm.team_b.name;
+                    
+
+                    //Append elements
+                        match_wrap.appendChild(match_date_wrap);
+                        match_date_wrap.appendChild(match_date);
+                        match_wrap.appendChild(match_time_wrap);
+                        match_time_wrap.appendChild(match_time);
+                        match_wrap.appendChild(team_a_wrap);
+                        team_a_wrap.appendChild(team_a_name);
+                        match_wrap.appendChild(team_sep_wrap);
+                        team_sep_wrap.appendChild(team_sep);
+                        match_wrap.appendChild(team_b_wrap);
+                        team_b_wrap.appendChild(team_b_name);
+
+                        par.appendChild(match_wrap);
+                    }
+
+
+
+                //TODO : Future Matches
+
+                    //Create elements
+
+                    
+                    //Add Data
+                    
+
+                    //Append elements
         }
 
         handle_req(team_req, team_req_handler);
@@ -455,7 +592,10 @@
     }
 
     function cEl(tag, load){
+        //Create element
         let el = document.createElement(tag);
+
+        //Add classes
         if(load.classes){
             if(Array.isArray(load.classes)){
                 for(let c in load.classes){
@@ -466,6 +606,22 @@
                 el.classList.add(load.classes);
             }
         }
+
+        //Add id
+        if(load.id){
+            el.id = load.id;
+        }
+
+        //add source
+        if(load.src){
+            el.src = load.src;
+        }
+
+        //Add ref
+        if(load.ref){
+            el.href = load.ref;
+        }
+
         return el;
     }
 
