@@ -72,10 +72,8 @@ include_once 'main.php';
     </div>
   </body>
   <script src="/Interact/base.js"></script>
-  <script src="/Interact/spin.js"></script>
   <script src="/Interact/main.js"></script>
   <script type="text/javascript">
-  setListeners('spinEl');
   var userName = "<?php echo $_SESSION['user']; ?>";
   var primaryColor = <?php echo json_encode($_SESSION['primaryColor']); ?>;
   var secondaryColor = <?php echo json_encode($_SESSION['secondaryColor']); ?>;

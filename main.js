@@ -368,6 +368,11 @@
                 past_match_list.appendChild(match);
 
             }
+
+            //Run page specific functions
+            
+                //set spin anim for profile pic
+                setListeners('spinEl');
         }
 
         handle_req(user_data_req, handle_user_data);
@@ -480,5 +485,31 @@
             "parameter": sep[0],
             "value": sep[1]
         }
+    }
+
+    function setListeners(className){
+        let elements = Array.from(document.getElementsByClassName(className));
+        for(let i of elements){
+            i.addEventListener('click', runSpin);
+        }
+    }
+    
+    function runSpin(){
+        this.classList.add("spin");
+        redir(1);
+    }
+    
+    function redir(op){
+        let red;
+        switch(op) {
+            case 1:
+                console.log("redirecting to user page: ", userName);
+                red = "./player.php?player=" + userName;
+                break;
+        }
+    
+        setTimeout(() => {
+            window.location.href = red;
+        }, 2000);
     }
 })()
