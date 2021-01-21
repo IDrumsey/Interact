@@ -541,7 +541,6 @@
 
         let play_home_res_handler = function(data){
             let games = JSON.parse(data);
-            console.log(games);
 
             //get parent element
             let game_list = document.getElementById('gameOptions');
@@ -721,7 +720,6 @@
 
             let tournaments_res_handler = function(data){
                 let tournaments = JSON.parse(data);
-                console.log(tournaments);
 
                 //Get parent element
                 let tournament_list = document.getElementById('tournamentList');
@@ -735,13 +733,6 @@
                     //Build elements
 
                     //TODO : Abstract this to include matches AND tournaments
-
-                    /*<a class='tournament' href='./bracketVisual/bracket.php?tournamentName=" . $tournaments[$i]['tournament_Name'] . "'>
-              <i class='fa fa-trophy'></i><div class='gameTitle'><h2>" . $tournaments[$i]['title'] . "</h2></div><div class='startDate'><h2>" . $tournaments[$i]['start_date'] . "</h2></div>
-              <div class='tournamentName'><h2>" . $tournaments[$i]['tournament_Name'] . "</h2></div>
-              <div class='numTeams'><h2>Registered Teams : " . $tournaments[$i]['teams_registered'] . "</h2></div>
-              <div class='owner'><h2>Created By : " . $tournaments[$i]['owner'] . "</h2></div>
-              </a>*/
 
                         let t_wrap = cEl('a', {"ref": "/Interact/bracketVisual/bracket.php?tournamentName=" + ct.name});
                         let result_type = cEl('i', {"classes": ['fa', 'fa-trophy']});
