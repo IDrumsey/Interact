@@ -1166,4 +1166,68 @@ function query_tournament_name($tournament_id, $conn){
     mysqli_close($conn);
 }
 
+function query_available_games($conn){
+    //Gets all the titles currently available
+    $games = [];
+    $sql = "SELECT title, teams_per_game, players_per_team, game.description FROM game";
+    $stmt = mysqli_stmt_init($conn);
+    if(mysqli_stmt_prepare($stmt, $sql) == false){
+        echo "Error in preparing sql statement";
+    }
+    else{
+        if(mysqli_execute($stmt) == false){
+            echo "Error in running query";
+        }
+        else{
+            $result = mysqli_stmt_get_result($stmt);
+            while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+                array_push($games, $row);
+            }
+            return $games;
+        }
+    }
+    mysqli_close($conn);
+}
+
+function get_game_tournaments($game_name, $conn){
+    $tournament_ids = query_game_tournaments($game_name, $conn);
+
+    $tournaments = [];
+
+    for($i = 0; $i < sizeof($tournament_ids); $i++){
+        $c_tournament = get_tournament_info($tournament_ids[$i], $conn);
+        array_push($tournaments, $c_tournament);
+    }
+
+    return $tournaments;
+}
+
+function query_game_tournaments($game_name, $conn){
+    //Gets all the tournament ids that are of the specified game
+    $tournaments = [];
+    $sql = "SELECT tournament_ID FROM tournament t1 INNER JOIN game t2 ON t1.gameID = t2.game_ID WHERE t2.title = ?";
+    $stmt = mysqli_stmt_init($conn);
+    if(mysqli_stmt_prepare($stmt, $sql) == false){
+        echo "Error in preparing sql statement";
+    }
+    else{
+        if(mysqli_stmt_bind_param($stmt, 's', $game_name) == false){
+            echo "Error in binding parameters";
+        }
+        else{
+            if(mysqli_execute($stmt) == false){
+                echo "Error in running query";
+            }
+            else{
+                $result = mysqli_stmt_get_result($stmt);
+                while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+                    array_push($tournaments, $row['tournament_ID']);
+                }
+                return $tournaments;
+            }
+        }
+    }
+    mysqli_close($conn);
+}
+
 //Tests

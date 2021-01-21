@@ -43,9 +43,7 @@ if(session_id() == ""){
           <div id="upcomingHead">
           <h2 id="tournamentListTitle" class="highlightText">Upcoming Tournaments</h2>
           <form action="" id="filterGames" method="POST">
-            <select name="gameOptions[]" id="gameOptions" class="fillPrim" multiple>
-              <option value="Overwatch" class="highlightText">Overwatch</option>
-            </select>
+            <select name="gameOptions[]" id="gameOptions" multiple></select>
           </form>
           </div>
           <div id="searchBtn"><h2 class="highlightText fillPrim"><i class="fa fa-search"></i></h2></div>
@@ -81,6 +79,7 @@ if(session_id() == ""){
   </body>
   <script src="./play.home.js"></script>
   <script src="/Interact/base.js"></script>
+  <script src="/Interact/main.js"></script>
   <script type="text/javascript">
   var primaryColor = <?php echo json_encode($_SESSION['primaryColor']); ?>;
   var secondaryColor = <?php echo json_encode($_SESSION['secondaryColor']); ?>;

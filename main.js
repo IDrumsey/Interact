@@ -13,6 +13,7 @@
             case('teams.homepage.php'): init_teams_homepage_php(); break;
             case('dashboard.php'): init_dashboard_php(); break;
             case('team.php'): init_team_php(); break;
+            case('play.home.php'): init_play_home(); break;
         }
     }
 
@@ -535,6 +536,44 @@
         team_req.send();
     }
 
+    function init_play_home(){
+        let play_home_req = new_req();
+
+        let play_home_res_handler = function(data){
+            let games = JSON.parse(data);
+            console.log(games);
+
+            //get parent element
+            let game_list = document.getElementById('gameOptions');
+
+            for(let g in games){
+                let cg = games[g];
+
+                //Build element
+                //<option value="Overwatch" class="highlightText">Overwatch</option>
+                let game_choice = cEl('option', {})
+
+                //Add Data
+                game_choice.value = cg.title;
+                game_choice.innerText = cg.title;
+                game_choice.title = cg.description;
+
+                //Append elements
+                game_list.appendChild(game_choice);
+            }
+
+            //Listen for search click
+            let search_btn = document.getElementById('searchBtn');
+            search_btn.addEventListener('click', load_game_tournaments);
+        }
+
+        handle_req(play_home_req, play_home_res_handler);
+
+        play_home_req.open('GET', 'Backend/get_play_home.php');
+
+        play_home_req.send();
+    }
+
 
 
     //other functionality
@@ -667,5 +706,94 @@
         setTimeout(() => {
             window.location.href = red;
         }, 2000);
+    }
+
+    function load_game_tournaments(){
+        //Get desired game
+        let game_list = document.getElementById('gameOptions');
+
+        //Check if a game is selected
+        if(game_list.selectedIndex != -1){
+            let game_name = game_list.options[game_list.selectedIndex].text;
+
+            //Get tournaments for given game
+            let game_tournaments_req = new_req();
+
+            let tournaments_res_handler = function(data){
+                let tournaments = JSON.parse(data);
+                console.log(tournaments);
+
+                //Get parent element
+                let tournament_list = document.getElementById('tournamentList');
+
+                //Clear parent
+                remove_children(tournament_list);
+
+                for(let t in tournaments){
+                    let ct = tournaments[t];
+
+                    //Build elements
+
+                    //TODO : Abstract this to include matches AND tournaments
+
+                    /*<a class='tournament' href='./bracketVisual/bracket.php?tournamentName=" . $tournaments[$i]['tournament_Name'] . "'>
+              <i class='fa fa-trophy'></i><div class='gameTitle'><h2>" . $tournaments[$i]['title'] . "</h2></div><div class='startDate'><h2>" . $tournaments[$i]['start_date'] . "</h2></div>
+              <div class='tournamentName'><h2>" . $tournaments[$i]['tournament_Name'] . "</h2></div>
+              <div class='numTeams'><h2>Registered Teams : " . $tournaments[$i]['teams_registered'] . "</h2></div>
+              <div class='owner'><h2>Created By : " . $tournaments[$i]['owner'] . "</h2></div>
+              </a>*/
+
+                        let t_wrap = cEl('a', {"ref": "/Interact/bracketVisual/bracket.php?tournamentName=" + ct.name});
+                        let result_type = cEl('i', {"classes": ['fa', 'fa-trophy']});
+                        let result_game = cEl('div', {"classes": 'gameTitle'});
+                        let result_game_name = cEl('h2', {});
+                        let start_date_wrap = cEl('div', {"classes": 'startDate'});
+                        let start_date = cEl('h2', {});
+                        let t_name_wrap = cEl('div', {"classes": 'tournamentName'});
+                        let t_name = cEl('h2', {});
+                        let t_num_teams_wrap = cEl('div', {"classes": 'numTeams'});
+                        let t_num_teams = cEl('h2', {});
+                        let result_owner_wrap = cEl('div', {"classes": 'owner'});
+                        let owner_name = cEl('h2', {});
+
+
+                    //Add data
+                    result_game_name.innerText = ct.game;
+                    start_date.innerText = ct.start_date;
+                    t_name.innerText = ct.name;
+                    t_num_teams.innerText = ct.registered_teams.length;
+                    owner_name.innerText = ct.owner;
+
+                    //Append
+                    t_wrap.appendChild(result_type);
+                    t_wrap.appendChild(result_game);
+                    result_game.appendChild(result_game_name);
+                    t_wrap.appendChild(start_date_wrap);
+                    start_date_wrap.appendChild(start_date);
+                    t_wrap.appendChild(t_name_wrap);
+                    t_name_wrap.appendChild(t_name);
+                    t_wrap.appendChild(t_num_teams_wrap);
+                    t_num_teams_wrap.appendChild(t_num_teams);
+                    t_wrap.appendChild(result_owner_wrap);
+                    result_owner_wrap.appendChild(owner_name);
+
+                    tournament_list.appendChild(t_wrap);
+                }
+            }
+
+            handle_req(game_tournaments_req, tournaments_res_handler);
+
+            game_tournaments_req.open('POST', '/Interact/Backend/get_game_tournaments.php');
+
+            game_tournaments_req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+            game_tournaments_req.send("game=" + game_name);
+        }
+    }
+
+    function remove_children(parent){
+        while(parent.lastChild){
+            parent.removeChild(parent.lastChild);
+        }
     }
 })()
